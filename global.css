@@ -469,3 +469,68 @@ body {
         opacity: 0.9;
     }
 }
+
+
+
+
+
+/* ========== FIX FOR PWA BOTTOM NAVIGATION ========== */
+
+/* للشاشة العادية (Safari) */
+.bottom-nav {
+    background: rgba(17, 42, 78, 0.95);
+    backdrop-filter: blur(20px);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    z-index: 100;
+}
+
+/* دعم iOS العادي */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+    .bottom-nav {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+}
+
+/* 🔥 إصلاح خاص للتطبيق عند حفظه على الشاشة الرئيسية (PWA) */
+@media (display-mode: standalone) {
+    .bottom-nav {
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+        height: 55px !important;
+        background: rgba(17, 42, 78, 0.98) !important;
+    }
+    
+    /* إضافة مسافة تعويضية للمحتوى */
+    .screen {
+        padding-bottom: 65px !important;
+    }
+    
+    .home-section-2,
+    .page-content,
+    .search-content {
+        padding-bottom: 80px !important;
+    }
+}
+
+/* إذا كان هناك شريط سفلي في iPhone (Dynamic Island) */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+    @media (display-mode: standalone) {
+        .bottom-nav {
+            padding-bottom: 0 !important;
+            height: 55px !important;
+        }
+        
+        .screen {
+            padding-bottom: calc(65px + env(safe-area-inset-bottom)) !important;
+        }
+    }
+}
