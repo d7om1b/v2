@@ -54,13 +54,11 @@
 }
 
 .pmu-outlined-field .input-box { 
-    border: 1.5px solid rgba(255, 255, 255, 0.3);
+    border: 1.2px solid white; 
     border-radius: 50px; 
-    height: 52px; 
+    height: 45px; 
     padding: 0 20px; 
-    position: relative;
-    background: rgba(255, 255, 255, 0.05);
-    transition: all 0.2s ease;
+    position: relative; 
 }
 
 .pmu-outlined-field .input-box:focus-within {
@@ -73,7 +71,6 @@
     left: 18px; 
     background: var(--primary-dark);
     padding: 0 8px; 
-    color: var(--primary-orange);
     font-size: 11px; 
     font-weight: 500;
     border-radius: 20px;
