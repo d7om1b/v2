@@ -81,13 +81,12 @@ body {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    padding: 10px 20px;
-    padding-bottom: calc(10px + var(--safe-bottom));
+    padding: 1px 5px;
+    padding-bottom: calc(1px + var(--safe-bottom));
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     position: relative;
     z-index: 100;
 }
-
 .nav-item {
     display: flex;
     flex-direction: column;
