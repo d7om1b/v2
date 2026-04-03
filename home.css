@@ -1,0 +1,420 @@
+/* ========================================
+   HOME PAGE - Professional Header Design
+   Background: #112a4e
+   ======================================== */
+
+#home-page {
+    padding-bottom: 20px;
+}
+
+/* ========== PROFESSIONAL HEADER ========== */
+.home-header {
+    padding: 20px;
+    padding-top: calc(20px + var(--safe-top));
+    position: relative;
+}
+
+/* Card / Box for Student Info */
+.student-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.05));
+    backdrop-filter: blur(20px);
+    border-radius: 28px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Decorative elements */
+.student-card::before {
+    content: '';
+    position: absolute;
+    top: -30%;
+    right: -10%;
+    width: 150px;
+    height: 150px;
+    background: var(--primary-orange);
+    filter: blur(60px);
+    opacity: 0.15;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.student-card::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    left: -10%;
+    width: 120px;
+    height: 120px;
+    background: var(--primary-orange);
+    filter: blur(50px);
+    opacity: 0.1;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+/* Welcome text */
+.welcome-text {
+    margin-bottom: 16px;
+}
+
+.welcome-text p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.welcome-text h1 {
+    color: var(--white);
+    font-size: 26px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #ffffff, var(--primary-orange));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Student info row */
+.student-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 5px;
+}
+
+/* Student ID Box */
+.student-id-box {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 16px;
+    padding: 8px 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.student-id-box i {
+    color: var(--primary-orange);
+    font-size: 16px;
+}
+
+.student-id-box span {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.student-id-box strong {
+    color: var(--white);
+    font-size: 14px;
+    font-weight: 700;
+    margin-left: 5px;
+}
+
+/* Student level badge */
+.level-badge {
+    background: rgba(243, 156, 18, 0.15);
+    border-radius: 16px;
+    padding: 8px 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid rgba(243, 156, 18, 0.3);
+}
+
+.level-badge i {
+    color: var(--primary-orange);
+    font-size: 16px;
+}
+
+.level-badge span {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 13px;
+}
+
+.level-badge strong {
+    color: var(--primary-orange);
+    font-size: 14px;
+    font-weight: 700;
+    margin-left: 5px;
+}
+
+/* Notification icon */
+.notification-icon {
+    background: rgba(255, 255, 255, 0.08);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.2s ease;
+}
+
+.notification-icon:active {
+    transform: scale(0.94);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.notification-icon i {
+    color: var(--white);
+    font-size: 20px;
+}
+
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: var(--primary-orange);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ========== SEARCH BAR ========== */
+.search-bar {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    margin: 20px;
+    padding: 14px 20px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.search-bar i:first-child {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 18px;
+}
+
+.search-bar span {
+    flex: 1;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 14px;
+}
+
+.search-bar i:last-child {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 14px;
+}
+
+.search-bar:active {
+    transform: scale(0.98);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* ========== STATS ROW ========== */
+.stats-row {
+    display: flex;
+    gap: 15px;
+    padding: 0 20px;
+    margin-bottom: 25px;
+}
+
+.stat-item {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(10px);
+    padding: 15px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.stat-item i {
+    font-size: 28px;
+    color: var(--primary-orange);
+}
+
+.stat-item div {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-num {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--white);
+}
+
+.stat-label {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* ========== SECTION TITLE ========== */
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0 20px;
+    margin-bottom: 15px;
+}
+
+.section-title h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--white);
+}
+
+.section-title button {
+    background: none;
+    border: none;
+    color: var(--primary-orange);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* ========== SCHEDULE CARDS ========== */
+.schedule-cards {
+    padding: 0 20px;
+    margin-bottom: 25px;
+}
+
+.schedule-card {
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 15px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.2s ease;
+}
+
+.schedule-card:active {
+    transform: scale(0.98);
+}
+
+.card-time {
+    text-align: center;
+    min-width: 60px;
+}
+
+.card-time span:first-child {
+    font-weight: 700;
+    color: var(--white);
+    font-size: 14px;
+    display: block;
+}
+
+.card-time span:last-child {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.card-info {
+    flex: 1;
+}
+
+.card-info h4 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 2px;
+    color: var(--white);
+}
+
+.card-info p {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 4px;
+}
+
+.location {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.location i {
+    font-size: 10px;
+    color: var(--primary-orange);
+}
+
+.card-status {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: rgba(243, 156, 18, 0.15);
+    color: var(--primary-orange);
+}
+
+/* ========== ANNOUNCEMENT CARDS ========== */
+.announcement-cards {
+    padding: 0 20px;
+    padding-bottom: 20px;
+}
+
+.announcement-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 15px;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.announce-icon {
+    width: 44px;
+    height: 44px;
+    background: rgba(243, 156, 18, 0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.announce-icon i {
+    font-size: 20px;
+    color: var(--primary-orange);
+}
+
+.announce-content {
+    flex: 1;
+}
+
+.announce-content h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--white);
+}
+
+.announce-content p {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 4px;
+}
+
+.announce-content span {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.4);
+}

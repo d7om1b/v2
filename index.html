@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PMU Student Hub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="PMU Hub">
+    <meta name="theme-color" content="#1a5f9e">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="search.css">
+    <link rel="stylesheet" href="profile.css">
+</head>
+<body>
+
+<!-- شاشة التحميل -->
+<div id="splash-screen">
+    <div class="splash-content">
+        <div class="splash-logo">🎓</div>
+        <h2>PMU Student Hub</h2>
+        <div class="loader"></div>
+    </div>
+</div>
+
+<div class="app-container hidden">
+    
+    <div class="screens-wrapper">
+        
+        <!-- ==================== HOME PAGE ==================== -->
+        <main id="home-page" class="screen active">
+    <div class="home-header">
+        <div class="student-card">
+            <div class="welcome-text">
+                <p>Welcome back,</p>
+                <h1>Hadeel Al-Mutairi</h1>
+            </div>
+            
+            <div class="student-info-row">
+                <div class="student-id-box">
+                    <i class="fa-solid fa-id-card"></i>
+                    <span>Student ID:</span>
+                    <strong>2021001234</strong>
+                </div>
+                
+                <div class="level-badge">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <span>Level:</span>
+                    <strong>6th Semester</strong>
+                </div>
+                
+                <div class="notification-icon" onclick="showToast('No new notifications')">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Search Bar -->
+    <div class="search-bar" onclick="switchPage('search-page')">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <span>Search for classrooms...</span>
+        <i class="fa-solid fa-chevron-right"></i>
+    </div>
+            
+            <div class="search-bar" onclick="switchPage('search-page')">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <span>Search for classrooms...</span>
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+            
+            <div class="stats-row">
+                <div class="stat-item">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    <div>
+                        <span class="stat-num">12</span>
+                        <span class="stat-label">Events</span>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <div>
+                        <span class="stat-num">24</span>
+                        <span class="stat-label">Rooms</span>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <i class="fa-solid fa-clock"></i>
+                    <div>
+                        <span class="stat-num">5</span>
+                        <span class="stat-label">Reminders</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section-title">
+                <h3>Today's Schedule</h3>
+                <button onclick="showToast('View all')">See all</button>
+            </div>
+            
+            <div class="schedule-cards">
+                <div class="schedule-card ongoing">
+                    <div class="card-time"><span>09:00</span><span>10:30</span></div>
+                    <div class="card-info">
+                        <h4>Computer Science 101</h4>
+                        <p>Dr. Ahmed Al-Rashid</p>
+                        <div class="location"><i class="fa-solid fa-location-dot"></i> Room 101, Building A</div>
+                    </div>
+                    <div class="card-status">Ongoing</div>
+                </div>
+                <div class="schedule-card">
+                    <div class="card-time"><span>11:00</span><span>12:30</span></div>
+                    <div class="card-info">
+                        <h4>Mathematics 201</h4>
+                        <p>Dr. Sarah Al-Otaibi</p>
+                        <div class="location"><i class="fa-solid fa-location-dot"></i> Room 201, Building B</div>
+                    </div>
+                    <div class="card-status upcoming">Upcoming</div>
+                </div>
+                <div class="schedule-card">
+                    <div class="card-time"><span>14:00</span><span>15:30</span></div>
+                    <div class="card-info">
+                        <h4>Physics Lab</h4>
+                        <p>Dr. Khalid Al-Zahrani</p>
+                        <div class="location"><i class="fa-solid fa-location-dot"></i> Lab 3, Building C</div>
+                    </div>
+                    <div class="card-status upcoming">Upcoming</div>
+                </div>
+            </div>
+            
+            <div class="section-title">
+                <h3>Announcements</h3>
+                <button onclick="showToast('View all')">See all</button>
+            </div>
+            
+            <div class="announcement-cards">
+                <div class="announcement-card">
+                    <div class="announce-icon"><i class="fa-regular fa-newspaper"></i></div>
+                    <div class="announce-content">
+                        <h4>Registration for Spring 2025</h4>
+                        <p>Registration opens next week. Check your portal for details.</p>
+                        <span>2 hours ago</span>
+                    </div>
+                </div>
+                <div class="announcement-card">
+                    <div class="announce-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                    <div class="announce-content">
+                        <h4>Final Exam Schedule Released</h4>
+                        <p>Final exams will begin on December 15th.</p>
+                        <span>1 day ago</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <!-- ==================== SEARCH PAGE ==================== -->
+        <section id="search-page" class="screen">
+            <div class="search-header">
+                <button class="back-btn" onclick="switchPage('home-page')">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <h2>Find Classroom</h2>
+                <div style="width: 40px;"></div>
+            </div>
+            
+            <div class="search-content">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="roomInput" placeholder="Enter room number (101, 201, etc.)">
+                </div>
+                
+                <button class="search-action" onclick="searchRoom()">
+                    <i class="fa-solid fa-location-arrow"></i> Search
+                </button>
+                
+                <div class="recent-section">
+                    <div class="recent-header">
+                        <span>Recent Searches</span>
+                        <button onclick="clearRecentSearches()">Clear</button>
+                    </div>
+                    <div id="recent-list" class="recent-list"></div>
+                </div>
+                
+                <div id="room-result" class="room-result hidden">
+                    <div class="result-box">
+                        <div class="result-icon"><i class="fa-solid fa-door-open"></i></div>
+                        <h3 id="room-number">Room 101</h3>
+                        <div class="result-details">
+                            <div class="detail"><i class="fa-solid fa-building"></i><span id="room-building">Building A</span></div>
+                            <div class="detail"><i class="fa-solid fa-layer-group"></i><span id="room-floor">First Floor</span></div>
+                            <div class="detail"><i class="fa-solid fa-location-dot"></i><span id="room-location">Near North Elevator</span></div>
+                        </div>
+                        <button class="direction-btn" onclick="showToast('Directions coming soon')">
+                            <i class="fa-solid fa-map"></i> Get Directions
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ==================== PROFILE PAGE ==================== -->
+        <section id="profile-page" class="screen">
+             <div class="profile-header-container">
+        <img src="./P2.png" alt="University" class="profile-header-img">
+    </div>
+            
+            <div class="login-overlay-content">
+<br>                
+                <div class="pmu-outlined-field">
+                    <div class="input-box">
+                        <label>E-mail</label>
+                        <input type="email" placeholder="example@pmu.edu.sa">
+                    </div>
+                </div>
+                
+                <div class="pmu-outlined-field">
+                    <div class="input-box">
+                        <label>Password</label>
+                        <input type="password" placeholder="••••••••">
+                    </div>
+                </div>
+                
+                <div class="login-with-text">login with</div>
+                
+                <div class="social-login-icons">
+                    <a href="#"><i class="fa-brands fa-microsoft"></i></a> 
+                    <a href="#"><i class="fa-brands fa-google"></i></a>
+                    <a href="#"><i class="fa-brands fa-apple"></i></a>
+                </div>
+                
+                <button class="pmu-btn-signin" onclick="showToast('Login feature coming soon!')">Sign in</button>
+                
+                <div class="pmu-signup-link">
+                    <a href="#" onclick="showToast('Sign up feature coming soon!')">Sign up</a>
+                </div>
+            </div>
+        </section>
+        
+    </div>
+    
+    <!-- ==================== BOTTOM NAVIGATION ==================== -->
+    <nav class="bottom-nav">
+        <div class="nav-item active" onclick="switchPage('home-page', this)">
+            <i class="fa-solid fa-house"></i><span>Home</span>
+        </div>
+        <div class="nav-item" onclick="switchPage('search-page', this)">
+            <i class="fa-solid fa-magnifying-glass"></i><span>Search</span>
+        </div>
+        <div class="nav-item" onclick="switchPage('profile-page', this)">
+            <i class="fa-solid fa-user"></i><span>Profile</span>
+        </div>
+    </nav>
+    
+</div>
+
+<div id="custom-toast" class="toast-hidden">
+    <i class="fa-solid fa-circle-check"></i>
+    <span>Success!</span>
+</div>
+
+<script>
+// ========================================
+// PMU STUDENT HUB - COMPLETE SCRIPT
+// ========================================
+
+// Navigation
+function switchPage(pageId, element) {
+    console.log('Switching to:', pageId);
+    // إخفاء جميع الشاشات
+    document.querySelectorAll('.screen').forEach(screen => {
+        screen.classList.remove('active');
+    });
+    // إظهار الشاشة المطلوبة
+    const target = document.getElementById(pageId);
+    if (target) {
+        target.classList.add('active');
+        console.log('Activated:', pageId);
+    } else {
+        console.error('Page not found:', pageId);
+    }
+    // تحديث شريط التنقل
+    if (element) {
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.classList.remove('active');
+        });
+        element.classList.add('active');
+    }
+    // تحديث البحث
+    if (pageId === 'search-page') {
+        loadRecentSearches();
+    }
+}
+
+// Toast
+function showToast(message, isError = false) {
+    const toast = document.getElementById('custom-toast');
+    if (toast) {
+        toast.querySelector('span').innerText = message;
+        toast.style.border = `1px solid ${isError ? '#e74c3c' : '#f39c12'}`;
+        toast.classList.remove('toast-hidden');
+        toast.classList.add('toast-show');
+        setTimeout(() => {
+            toast.classList.remove('toast-show');
+            setTimeout(() => toast.classList.add('toast-hidden'), 300);
+        }, 2000);
+    } else {
+        alert(message);
+    }
+}
+
+// Room Data
+const roomsData = {
+    "101": { building: "Building A", floor: "First Floor", location: "Near North Elevator" },
+    "102": { building: "Building A", floor: "First Floor", location: "Near South Elevator" },
+    "201": { building: "Building B", floor: "Second Floor", location: "Next to Faculty Office" },
+    "202": { building: "Building B", floor: "Second Floor", location: "Opposite to Library" },
+    "301": { building: "Building C", floor: "Third Floor", location: "Computer Lab" }
+};
+
+// Search Room
+function searchRoom() {
+    const input = document.getElementById('roomInput').value.trim();
+    const resultDiv = document.getElementById('room-result');
+    
+    if (!input) {
+        showToast('Please enter a room number', true);
+        return;
+    }
+    
+    const roomData = roomsData[input];
+    if (roomData) {
+        document.getElementById('room-number').innerHTML = `Room ${input}`;
+        document.getElementById('room-building').innerHTML = roomData.building;
+        document.getElementById('room-floor').innerHTML = roomData.floor;
+        document.getElementById('room-location').innerHTML = roomData.location;
+        resultDiv.classList.remove('hidden');
+        
+        let recents = JSON.parse(localStorage.getItem('pmu_recent_searches') || '[]');
+        recents = [input, ...recents.filter(r => r !== input)].slice(0, 5);
+        localStorage.setItem('pmu_recent_searches', JSON.stringify(recents));
+        loadRecentSearches();
+        showToast(`Room ${input} found!`);
+    } else {
+        resultDiv.classList.add('hidden');
+        showToast('Room not found!', true);
+    }
+}
+
+// Load Recent Searches
+function loadRecentSearches() {
+    const container = document.getElementById('recent-list');
+    if (!container) return;
+    const recents = JSON.parse(localStorage.getItem('pmu_recent_searches') || '[]');
+    if (recents.length === 0) {
+        container.innerHTML = '<p style="color: #6c757d; font-size: 12px; width: 100%; text-align: center;">No recent searches</p>';
+        return;
+    }
+    container.innerHTML = recents.map(room => `
+        <div class="recent-item" onclick="searchRecent('${room}')">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            <span>Room ${room}</span>
+        </div>
+    `).join('');
+}
+
+function searchRecent(room) {
+    document.getElementById('roomInput').value = room;
+    searchRoom();
+}
+
+function clearRecentSearches() {
+    localStorage.removeItem('pmu_recent_searches');
+    loadRecentSearches();
+    showToast('Recent searches cleared');
+}
+
+// Enter key search
+document.getElementById('roomInput')?.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') searchRoom();
+});
+
+// Splash Screen
+window.addEventListener('load', function() {
+    setTimeout(() => {
+        const splash = document.getElementById('splash-screen');
+        const container = document.querySelector('.app-container');
+        if (splash) {
+            splash.style.opacity = '0';
+            setTimeout(() => {
+                splash.classList.add('hidden');
+                if (container) container.classList.remove('hidden');
+            }, 500);
+        }
+    }, 2000);
+    loadRecentSearches();
+});
+
+// vh for mobile
+function setRealHeight() {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+setRealHeight();
+window.addEventListener('resize', setRealHeight);
+window.addEventListener('orientationchange', setRealHeight);
+
+// Test - تأكد من أن الصفحات تعمل
+console.log('Script loaded');
+console.log('Home page:', document.getElementById('home-page'));
+console.log('Search page:', document.getElementById('search-page'));
+console.log('Profile page:', document.getElementById('profile-page'));
+</script>
+</body>
+</html>

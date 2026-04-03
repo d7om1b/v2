@@ -1,0 +1,232 @@
+/* ========================================
+   SEARCH PAGE - Modern Design
+   Background: #112a4e
+   ======================================== */
+
+#search-page {
+    background: var(--primary-dark);
+}
+
+/* ========== HEADER ========== */
+.search-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--white);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.back-btn:active {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.search-header h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--white);
+}
+
+/* ========== SEARCH CONTENT ========== */
+.search-content {
+    padding: 20px;
+}
+
+.search-box {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 50px;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.search-box i {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 18px;
+}
+
+.search-box input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    background: transparent;
+    color: var(--white);
+}
+
+.search-box input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.search-action {
+    width: 100%;
+    background: linear-gradient(135deg, var(--primary-orange), var(--primary-orange-dark));
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    margin-bottom: 25px;
+    transition: all 0.2s ease;
+}
+
+.search-action:active {
+    transform: scale(0.97);
+}
+
+/* ========== RECENT SECTION ========== */
+.recent-section {
+    margin-bottom: 20px;
+}
+
+.recent-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 12px;
+}
+
+.recent-header span {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white);
+}
+
+.recent-header button {
+    background: none;
+    border: none;
+    color: var(--primary-orange);
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.recent-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.recent-item {
+    background: rgba(255, 255, 255, 0.08);
+    padding: 8px 16px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--white);
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.recent-item i {
+    font-size: 12px;
+    color: var(--primary-orange);
+}
+
+.recent-item:active {
+    transform: scale(0.96);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* ========== ROOM RESULT ========== */
+.room-result {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.result-box {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    padding: 25px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.result-icon {
+    width: 70px;
+    height: 70px;
+    background: rgba(243, 156, 18, 0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+}
+
+.result-icon i {
+    font-size: 32px;
+    color: var(--primary-orange);
+}
+
+.result-box h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 20px;
+}
+
+.result-details {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.detail {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.detail i {
+    width: 24px;
+    font-size: 16px;
+    color: var(--primary-orange);
+}
+
+.detail span {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.direction-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--primary-orange), var(--primary-orange-dark));
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.direction-btn:active {
+    transform: scale(0.97);
+}
