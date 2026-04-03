@@ -418,3 +418,132 @@
     font-size: 10px;
     color: rgba(255, 255, 255, 0.4);
 }
+
+
+
+/* بطاقات الأماكن - نسخة مصغرة */
+.places-section {
+    margin-bottom: 20px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 12px;
+}
+
+.section-header h3 {
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.section-header span {
+    color: var(--primary-orange);
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.place-card {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    transition: all 0.2s ease;
+}
+
+/* تصغير حجم الصورة */
+.place-image {
+    width: 100%;
+    height: 120px;
+    position: relative;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    display: block;
+}
+
+.place-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.rating-badge {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(8px);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 10px;
+    color: white;
+    font-weight: 600;
+    z-index: 5;
+}
+
+/* تصغير حجم العنوان */
+.place-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: white;
+    margin: 10px 12px 2px 12px;
+}
+
+/* تصغير حجم الموقع */
+.place-location {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0 12px 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* تصغير حجم التفاصيل */
+.card-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    margin: 0;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.detail-item i {
+    color: var(--primary-orange);
+    font-size: 12px;
+}
+
+/* تصغير حجم الزر */
+.book-btn {
+    width: calc(100% - 24px);
+    margin: 0 12px 12px 12px;
+    background: linear-gradient(135deg, var(--primary-orange), var(--primary-orange));
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.book-btn:active {
+    transform: scale(0.97);
+}
