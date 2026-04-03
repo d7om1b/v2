@@ -470,15 +470,39 @@ body {
     }
 }
 
-/* دعم خاص لأجهزة Dynamic Island */
-@supports (padding-top: env(safe-area-inset-top)) {
-    .screen {
-        padding-top: max(15px, env(safe-area-inset-top));
-    }
-    
-    .home-header,
-    .search-header,
-    .details-header {
-        padding-top: calc(30px + env(safe-area-inset-top)) !important;
-    }
+/* ========== FIX FOR NOTCH / DYNAMIC ISLAND ========== */
+
+/* إضافة مسافة علوية آمنة لجميع الصفحات */
+.screen {
+    padding-top: var(--safe-top, 0px);
+}
+
+/* تعديل خاص للصفحة الرئيسية */
+#home-page .home-header {
+    padding-top: calc(20px + var(--safe-top, 0px));
+}
+
+/* تعديل شريط البحث */
+.search-bar {
+    margin-top: 5px;
+}
+
+/* تعديل صفحة البحث */
+.search-header {
+    padding-top: calc(20px + var(--safe-top, 0px));
+}
+
+/* تعديل زر الرجوع في صفحة البحث */
+.back-btn {
+    margin-top: 0;
+}
+
+/* تعديل صفحة التفاصيل */
+.details-header {
+    padding-top: calc(15px + var(--safe-top, 0px));
+}
+
+/* تعديل شريط التنقل السفلي */
+.bottom-nav {
+    padding-bottom: var(--safe-bottom, 0px);
 }
