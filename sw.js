@@ -1,16 +1,16 @@
 // Service Worker for PMU Student Hub
 const CACHE_NAME = 'pmu-student-hub-v1';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/global.css',
-  '/home.css',
-  '/search.css',
-  '/profile.css',
-  '/script.js',
-  '/logo.png',
-  '/P2.png',
-  '/manifest.json'
+  './',                    // الصفحة الرئيسية
+  './index.html',
+  './global.css',
+  './home.css',
+  './search.css',
+  './profile.css',
+  './script.js',
+  './logo.png',
+  './P2.png',
+  './manifest.json'
 ];
 
 // تثبيت Service Worker
