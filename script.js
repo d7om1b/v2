@@ -74,7 +74,7 @@ const roomsData = {
         building: "Building A",
         floor: "First Floor",
         location: "Near South Elevator",
-        image: "https://via.placeholder.com/400x200?text=Room+102",
+         image: "./room1.png",
         desc: "Located near the South Elevator. Quiet area for studying.",
         descAr: "يقع بالقرب من المصعد الجنوبي. منطقة هادئة للدراسة"
     },
