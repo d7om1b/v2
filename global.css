@@ -470,68 +470,6 @@ body {
     }
 }
 
-/* ========== FIX FOR NOTCH / DYNAMIC ISLAND ========== */
-
-/* إضافة مسافة علوية آمنة لجميع الصفحات */
-.screen {
-    padding-top: var(--safe-top, 0px);
-}
-
-/* تعديل خاص للصفحة الرئيسية */
-#home-page .home-header {
-    padding-top: calc(20px + var(--safe-top, 0px));
-}
-
-/* تعديل شريط البحث */
-.search-bar {
-    margin-top: 5px;
-}
-
-/* تعديل صفحة البحث */
-.search-header {
-    padding-top: calc(20px + var(--safe-top, 0px));
-}
-
-/* تعديل زر الرجوع في صفحة البحث */
-.back-btn {
-    margin-top: 0;
-}
-
-/* تعديل صفحة التفاصيل */
-.details-header {
-    padding-top: calc(15px + var(--safe-top, 0px));
-}
-
-/* تعديل شريط التنقل السفلي */
-.bottom-nav {
-    padding-bottom: var(--safe-bottom, 0px);
-}
-/* هبوط عام لجميع المحتوى */
-.app-container {
-    padding-top: max(10px, var(--safe-top, 0px));
-}
-
-/* للصفحات التي تحتوي على هيدر */
-.home-header,
-.search-header,
-.details-header,
-.profile-header-container {
-    padding-top: calc(25px + var(--safe-top, 0px)) !important;
-}
-
-/* تحسين زر الرجوع ليكون في مكان مناسب */
-.back-btn {
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-
-/* تحسين جميع الأزرار العلوية */
-.header-actions button,
-.settings-icon,
-.notification-icon {
-    margin-top: 5px;
-}
-
 /* دعم خاص لأجهزة Dynamic Island */
 @supports (padding-top: env(safe-area-inset-top)) {
     .screen {
