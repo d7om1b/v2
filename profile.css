@@ -32,7 +32,6 @@
     font-size: 22px;
     font-weight: 800;
     background: linear-gradient(135deg, #ffffff, var(--primary-orange));
-    -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -165,4 +164,202 @@
 
 .pmu-signup-link a:hover {
     color: var(--primary-orange);
+}
+
+
+
+/* ========== STUDENT DASHBOARD STYLES ========== */
+
+#student-dashboard {
+    background: var(--primary-dark);
+    padding-bottom: 20px;
+}
+
+/* Header with cover */
+.dashboard-header {
+    position: relative;
+}
+
+.dashboard-cover {
+    width: 100%;
+    height: 140px;
+    overflow: hidden;
+}
+
+.cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Profile info card (overlapping cover) */
+.profile-info-card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    border-radius: 24px;
+    margin: -40px 20px 20px 20px;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.profile-avatar {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: -60px auto 15px auto;
+}
+
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 3px solid var(--primary-orange);
+    object-fit: cover;
+    background: var(--primary-dark);
+}
+
+.edit-avatar {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: var(--primary-orange);
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+}
+
+.edit-avatar:active {
+    transform: scale(0.9);
+}
+
+.profile-info-card h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 4px;
+}
+
+.profile-info-card p {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 15px;
+}
+
+.dashboard-stats {
+    display: flex;
+    justify-content: space-around;
+    gap: 15px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dashboard-stats .stat {
+    text-align: center;
+}
+
+.dashboard-stats .stat-value {
+    display: block;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--primary-orange);
+}
+
+.dashboard-stats .stat-label {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Dashboard Menu */
+.dashboard-menu {
+    margin: 20px;
+}
+
+.menu-section {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.menu-section h3 {
+    padding: 15px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.7);
+    background: rgba(0, 0, 0, 0.2);
+    margin: 0;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 14px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.menu-item:active {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.menu-item i:first-child {
+    width: 28px;
+    font-size: 18px;
+    color: var(--primary-orange);
+    margin-right: 12px;
+}
+
+.menu-item span {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
+}
+
+.menu-item i:last-child {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* Logout button */
+.logout-btn-container {
+    margin-top: 20px;
+}
+
+.logout-dashboard-btn {
+    width: 100%;
+    background: rgba(255, 68, 68, 0.15);
+    border: 1px solid rgba(255, 68, 68, 0.3);
+    color: #ff5555;
+    padding: 14px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.logout-dashboard-btn:active {
+    transform: scale(0.97);
+    background: rgba(255, 68, 68, 0.25);
+}
+
+.app-version {
+    text-align: center;
+    padding: 20px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.3);
 }

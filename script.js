@@ -1,9 +1,24 @@
 // ========================================
-// PMU STUDENT HUB - COMPLETE SCRIPT
+// PMU STUDENT HUB - MAIN SCRIPT
 // Version: 2.0
 // ========================================
 
 // ========== UTILITY FUNCTIONS ==========
+
+// Toast Notification
+function showToast(message, isError = false) {
+    const toast = document.getElementById('custom-toast');
+    if (toast) {
+        toast.querySelector('span').innerText = message;
+        toast.style.border = `1px solid ${isError ? '#e74c3c' : '#f39c12'}`;
+        toast.classList.remove('toast-hidden');
+        toast.classList.add('toast-show');
+        setTimeout(() => {
+            toast.classList.remove('toast-show');
+            setTimeout(() => toast.classList.add('toast-hidden'), 300);
+        }, 2000);
+    }
+}
 
 // حساب الـ vh للأجهزة المحمولة
 function setRealHeight() {
@@ -36,76 +51,15 @@ function switchPage(pageId, element) {
         });
         element.classList.add('active');
     }
-    
-    // تحديث البحث عند فتح صفحة البحث
-    if (pageId === 'search-page') {
-        loadRecentSearches();
-    }
 }
-
-// ========== TOAST NOTIFICATION ==========
-function showToast(message, isError = false) {
-    const toast = document.getElementById('custom-toast');
-    if (toast) {
-        toast.querySelector('span').innerText = message;
-        toast.style.border = `1px solid ${isError ? '#e74c3c' : '#f39c12'}`;
-        toast.classList.remove('toast-hidden');
-        toast.classList.add('toast-show');
-        setTimeout(() => {
-            toast.classList.remove('toast-show');
-            setTimeout(() => toast.classList.add('toast-hidden'), 300);
-        }, 2000);
-    } else {
-        alert(message);
-    }
-}
-
-// ========== ROOM DATA ==========
-const roomsData = {
-    "101": {
-        building: "Building A",
-        floor: "First Floor",
-        location: "Near North Elevator",
-        image: "./room2.png",
-        desc: "Located near the North Elevator. Perfect for group studies and lectures.",
-        descAr: "يقع بالقرب من المصعد الشمالي. مثالي للدراسات الجماعية والمحاضرات"
-    },
-    "102": {
-        building: "Building A",
-        floor: "First Floor",
-        location: "Near South Elevator",
-         image: "./room1.png",
-        desc: "Located near the South Elevator. Quiet area for studying.",
-        descAr: "يقع بالقرب من المصعد الجنوبي. منطقة هادئة للدراسة"
-    },
-    "201": {
-        building: "Building B",
-        floor: "Second Floor",
-        location: "Next to Faculty Office",
-        image: "https://via.placeholder.com/400x200?text=Room+201",
-        desc: "Computer lab with 30 workstations. Available for students.",
-        descAr: "معمل حاسوب مزود بـ 30 محطة عمل. متاح للطلاب"
-    },
-    "202": {
-        building: "Building B",
-        floor: "Second Floor",
-        location: "Opposite to Library",
-        image: "https://via.placeholder.com/400x200?text=Room+202",
-        desc: "Study room with group discussion area.",
-        descAr: "غرفة دراسة مع منطقة مناقشة جماعية"
-    },
-    "301": {
-        building: "Building C",
-        floor: "Third Floor",
-        location: "Computer Lab",
-        image: "https://via.placeholder.com/400x200?text=Room+301",
-        desc: "Advanced computer lab with modern equipment.",
-        descAr: "معمل حاسوب متقدم بأجهزة حديثة"
-    }
-};
 
 // ========== SEARCH FUNCTIONS ==========
-// Search Room
+const roomsData = {
+    "101": { building: "Building A", floor: "First Floor", location: "Near North Elevator", image: "https://via.placeholder.com/400x200?text=Room+101" },
+    "102": { building: "Building A", floor: "First Floor", location: "Near South Elevator", image: "https://via.placeholder.com/400x200?text=Room+102" },
+    "201": { building: "Building B", floor: "Second Floor", location: "Next to Faculty Office", image: "https://via.placeholder.com/400x200?text=Room+201" }
+};
+
 function searchRoom() {
     const input = document.getElementById('roomInput').value.trim();
     const resultDiv = document.getElementById('room-result');
@@ -117,144 +71,110 @@ function searchRoom() {
     
     const roomData = roomsData[input];
     if (roomData) {
-        // تحديث الصورة
-        const roomImage = document.getElementById('room-image');
-        if (roomImage) {
-            roomImage.src = roomData.image;
-            roomImage.alt = `Room ${input} Image`;
-        }
-        
-        // تحديث معلومات الغرفة
+        document.getElementById('room-image').src = roomData.image;
         document.getElementById('room-number').innerHTML = `Room ${input}`;
         document.getElementById('room-building').innerHTML = roomData.building;
         document.getElementById('room-floor').innerHTML = roomData.floor;
         document.getElementById('room-location').innerHTML = roomData.location;
-        
-        // إظهار النتيجة
         resultDiv.classList.remove('hidden');
-        
-        // حفظ البحث الأخير
-        let recents = JSON.parse(localStorage.getItem('pmu_recent_searches') || '[]');
-        recents = [input, ...recents.filter(r => r !== input)].slice(0, 5);
-        localStorage.setItem('pmu_recent_searches', JSON.stringify(recents));
-        loadRecentSearches();
-        
         showToast(`📍 Room ${input} found!`);
     } else {
         resultDiv.classList.add('hidden');
-        showToast('Room not found! Try 101, 102, 201, 202, or 301', true);
+        showToast('Room not found! Try 101, 102, or 201', true);
     }
-}
-
-// Load Recent Searches
-function loadRecentSearches() {
-    const container = document.getElementById('recent-list');
-    if (!container) return;
-    const recents = JSON.parse(localStorage.getItem('pmu_recent_searches') || '[]');
-    if (recents.length === 0) {
-        container.innerHTML = '<p style="color: #6c757d; font-size: 12px; width: 100%; text-align: center;">No recent searches</p>';
-        return;
-    }
-    container.innerHTML = recents.map(room => `
-        <div class="recent-item" onclick="searchRecent('${room}')">
-            <i class="fa-solid fa-clock-rotate-left"></i>
-            <span>Room ${room}</span>
-        </div>
-    `).join('');
-}
-
-function searchRecent(room) {
-    document.getElementById('roomInput').value = room;
-    searchRoom();
 }
 
 function clearRecentSearches() {
-    localStorage.removeItem('pmu_recent_searches');
-    loadRecentSearches();
     showToast('Recent searches cleared');
 }
 
-// Enter key search
-document.getElementById('roomInput')?.addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') searchRoom();
-});
+// ========== NOTIFICATIONS MODAL ==========
+function openNotificationsModal() {
+    const modal = document.getElementById('notifications-modal');
+    if (modal) {
+        modal.classList.remove('hidden');
+    }
+}
 
-// ========== FAVORITES FUNCTIONS ==========
-let favorites = JSON.parse(localStorage.getItem('pmu_favorites')) || [];
+function closeNotificationsModal() {
+    const modal = document.getElementById('notifications-modal');
+    if (modal) {
+        modal.classList.add('hidden');
+    }
+}
 
-function toggleFavorite() {
-    const roomNumber = window.currentRoomNumber;
-    if (!roomNumber) {
-        showToast('No room selected!', true);
+function markAllNotificationsRead() {
+    closeNotificationsModal();
+    showToast('All notifications marked as read');
+}
+
+// ========== LOGIN & DASHBOARD ==========
+function handleStudentLogin() {
+    console.log('🔵 Login button clicked');
+    
+    const emailInput = document.querySelector('#profile-page .pmu-outlined-field input[type="email"]');
+    const passInput = document.querySelector('#profile-page .pmu-outlined-field input[type="password"]');
+    
+    if (!emailInput || !passInput) {
+        showToast('Login form not found', true);
         return;
     }
     
-    if (favorites.includes(roomNumber)) {
-        favorites = favorites.filter(r => r !== roomNumber);
-        showToast(`Room ${roomNumber} removed from favorites`);
-    } else {
-        favorites.push(roomNumber);
-        showToast(`Room ${roomNumber} added to Favorites! ❤️`);
-    }
-    
-    localStorage.setItem('pmu_favorites', JSON.stringify(favorites));
-    renderFavorites();
-}
-
-function renderFavorites() {
-    const favContainer = document.getElementById('favorites-list');
-    if (!favContainer) return;
-    favContainer.innerHTML = '';
-    if (favorites.length === 0) {
-        favContainer.innerHTML = '<p style="color:rgba(255,255,255,0.5); font-size:12px; text-align:center;">No favorites yet</p>';
-        return;
-    }
-    favorites.forEach(room => {
-        favContainer.innerHTML += `
-            <div class="fav-item-card" onclick="goToRoom('${room}')">
-                <span><i class="fa-solid fa-location-dot" style="color:#f39c12;"></i> Room ${room}</span>
-                <button onclick="event.stopPropagation(); removeFromFav('${room}')"><i class="fa-solid fa-trash-can"></i></button>
-            </div>
-        `;
-    });
-}
-
-function removeFromFav(roomNumber) {
-    favorites = favorites.filter(r => r !== roomNumber);
-    localStorage.setItem('pmu_favorites', JSON.stringify(favorites));
-    renderFavorites();
-    showToast(`Room ${roomNumber} removed`);
-}
-
-function goToRoom(roomNumber) {
-    document.getElementById('roomInput').value = roomNumber;
-    searchRoom();
-}
-
-function shareLocation() {
-    const roomNumber = window.currentRoomNumber;
-    if (roomNumber) {
-        const text = `📍 Room ${roomNumber} at PMU University`;
-        if (navigator.share) {
-            navigator.share({ title: 'PMU Location', text: text });
-        } else {
-            navigator.clipboard.writeText(text);
-            showToast('Location copied to clipboard!');
-        }
-    } else {
-        showToast('No room selected', true);
-    }
-}
-
-// ========== PROFILE FUNCTIONS ==========
-function handleSignIn() {
-    const email = document.querySelector('#profile-page .pmu-outlined-field input[type="email"]').value;
-    const password = document.querySelector('#profile-page .pmu-outlined-field input[type="password"]').value;
+    const email = emailInput.value.trim();
+    const password = passInput.value.trim();
     
     if (email && password) {
+        // تحديث اسم المستخدم في Dashboard
+        const dashboardName = document.getElementById('dashboard-name');
+        const dashboardEmail = document.getElementById('dashboard-email');
+        
+        if (dashboardName) {
+            dashboardName.innerText = email.split('@')[0] || "Student";
+        }
+        if (dashboardEmail) {
+            dashboardEmail.innerText = email;
+        }
+        
         showToast('Login successful! Welcome back.');
+        
+        // إخفاء جميع الشاشات
+        document.querySelectorAll('.screen').forEach(screen => {
+            screen.classList.remove('active');
+        });
+        
+        // إظهار Dashboard
+        const dashboard = document.getElementById('student-dashboard');
+        if (dashboard) {
+            dashboard.classList.add('active');
+            console.log('✅ Dashboard activated');
+        }
     } else {
         showToast('Please enter both email and password', true);
+    }
+}
+
+function logoutFromDashboard() {
+    if (confirm('Are you sure you want to sign out?')) {
+        // العودة إلى صفحة البروفايل
+        document.querySelectorAll('.screen').forEach(screen => {
+            screen.classList.remove('active');
+        });
+        
+        const profilePage = document.getElementById('profile-page');
+        if (profilePage) {
+            profilePage.classList.add('active');
+        }
+        
+        // تحديث شريط التنقل
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.classList.remove('active');
+        });
+        const profileNav = document.querySelector('.nav-item[onclick*="profile-page"]');
+        if (profileNav) {
+            profileNav.classList.add('active');
+        }
+        
+        showToast('Logged out successfully');
     }
 }
 
@@ -267,44 +187,50 @@ window.addEventListener('load', function() {
             splash.style.opacity = '0';
             setTimeout(() => {
                 splash.classList.add('hidden');
-                if (container) container.classList.remove('hidden');
+                if (container) {
+                    container.classList.remove('hidden');
+                }
                 setRealHeight();
             }, 500);
         }
-    }, 2000);
+    }, 1500);
     
-    loadRecentSearches();
-    renderFavorites();
+    setRealHeight();
 });
 
-// ========== WINDOW EVENTS ==========
 window.addEventListener('resize', setRealHeight);
 window.addEventListener('orientationchange', setRealHeight);
 
-// ========== SERVICE WORKER (PWA) ==========
-// ========== SERVICE WORKER (PWA) ==========
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')  // أضف ./
-            .then(registration => {
-                console.log('✅ Service Worker registered:', registration.scope);
-            })
-            .catch(error => {
-                console.log('❌ Service Worker registration failed:', error);
-            });
-    });
-}
-
-// ========== INITIALIZATION ==========
+// ========== DOM CONTENT LOADED ==========
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('PMU Student Hub - Script Loaded');
-    console.log('Home page:', document.getElementById('home-page'));
-    console.log('Search page:', document.getElementById('search-page'));
-    console.log('Profile page:', document.getElementById('profile-page'));
+    console.log('DOM loaded - PMU Student Hub ready');
+    loadSavedAvatar();
+    // زر تسجيل الدخول
+    const signinBtn = document.getElementById('signinBtn');
+    if (signinBtn) {
+        signinBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            handleStudentLogin();
+        });
+    }
     
-    setRealHeight();
-    loadRecentSearches();
-    renderFavorites();
+    // زر تسجيل الخروج
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function() {
+            logoutFromDashboard();
+        });
+    }
+    
+    // زر البحث (Enter key)
+    const roomInput = document.getElementById('roomInput');
+    if (roomInput) {
+        roomInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchRoom();
+            }
+        });
+    }
 });
 
 // ========== EXPORT FUNCTIONS FOR GLOBAL USE ==========
@@ -312,90 +238,53 @@ window.switchPage = switchPage;
 window.showToast = showToast;
 window.searchRoom = searchRoom;
 window.clearRecentSearches = clearRecentSearches;
-window.searchRecent = searchRecent;
-window.toggleFavorite = toggleFavorite;
-window.removeFromFav = removeFromFav;
-window.goToRoom = goToRoom;
-window.shareLocation = shareLocation;
-window.handleSignIn = handleSignIn;
+window.openNotificationsModal = openNotificationsModal;
+window.closeNotificationsModal = closeNotificationsModal;
+window.markAllNotificationsRead = markAllNotificationsRead;
+window.handleStudentLogin = handleStudentLogin;
+window.logoutFromDashboard = logoutFromDashboard;
 
-// ========== NOTIFICATIONS FUNCTIONS ==========
 
-// فتح نافذة الإشعارات
-function openNotificationsModal() {
-    console.log('Opening notifications modal');
-    const modal = document.getElementById('notifications-modal');
-    if (modal) {
-        modal.classList.remove('hidden');
-        modal.classList.add('active');
-        console.log('Modal opened');
-    } else {
-        console.error('Modal element not found');
+// ========== PROFILE AVATAR FUNCTIONS ==========
+
+// تغيير صورة البروفايل
+function changeProfileAvatar() {
+    // إنشاء input لاختيار ملف
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    
+    input.onchange = function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const avatarImg = document.getElementById('logo.png');
+                if (avatarImg) {
+                    avatarImg.src = event.target.result;
+                    // حفظ الصورة في localStorage
+                    localStorage.setItem('user_avatar', event.target.result);
+                    showToast('Profile picture updated!');
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+    
+    input.click();
+}
+
+// تحميل الصورة المحفوظة عند بدء التشغيل
+function loadSavedAvatar() {
+    const savedAvatar = localStorage.getItem('user_avatar');
+    if (savedAvatar) {
+        const avatarImg = document.getElementById('B1.png');
+        if (avatarImg) {
+            avatarImg.src = savedAvatar;
+        }
     }
 }
 
-// إغلاق نافذة الإشعارات
-function closeNotificationsModal() {
-    console.log('Closing notifications modal');
-    const modal = document.getElementById('notifications-modal');
-    if (modal) {
-        modal.classList.add('hidden');
-        modal.classList.remove('active');
-    }
-}
-
-// تحديد جميع الإشعارات كمقروءة
-function markAllNotificationsRead() {
-    const notifications = document.querySelectorAll('.notification-item');
-    notifications.forEach(notif => {
-        notif.classList.remove('unread');
-    });
-    
-    // تحديث العداد
-    const badge = document.querySelector('.notification-badge');
-    if (badge) {
-        badge.style.display = 'none';
-        badge.innerText = '0';
-    }
-    
-    showToast('All notifications marked as read');
-    closeNotificationsModal();
-}
-
-// إضافة إشعار جديد
-function addNotification(title, message) {
-    const container = document.getElementById('notifications-list');
-    if (!container) return;
-    
-    const notification = document.createElement('div');
-    notification.className = 'notification-item unread';
-    notification.innerHTML = `
-        <div class="notification-icon">
-            <i class="fa-regular fa-bell"></i>
-        </div>
-        <div class="notification-content">
-            <h4>${title}</h4>
-            <p>${message}</p>
-            <span>Just now</span>
-        </div>
-    `;
-    
-    container.insertBefore(notification, container.firstChild);
-    
-    // تحديث العداد
-    const badge = document.querySelector('.notification-badge');
-    if (badge) {
-        badge.style.display = 'flex';
-        let count = parseInt(badge.innerText) || 0;
-        badge.innerText = count + 1;
-    }
-    
-    showToast('New notification added');
-}
-
-// إغلاق النافذة عند الضغط على ESC
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        closeNotificationsModal();
-    }
-});
+// إضافة استدعاء تحميل الصورة في DOMContentLoaded
+// أضف هذا السطر داخل document.addEventListener('DOMContentLoaded', function() { ... })
+// loadSavedAvatar();
