@@ -363,3 +363,18 @@
     font-size: 11px;
     color: rgba(255, 255, 255, 0.3);
 }
+/* ========== FIX FOR DASHBOARD OVERLAY ========== */
+#student-dashboard {
+    position: relative;
+    z-index: 10;
+}
+
+#student-dashboard .cover-overlay {
+    display: none !important;
+}
+
+/* إزالة أي خلفية صفراء من Dashboard */
+#student-dashboard [style*="rgba(243,156,18,0.3)"],
+#student-dashboard [style*="#f39c12"] {
+    background: transparent !important;
+}
