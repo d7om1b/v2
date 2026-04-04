@@ -55,8 +55,8 @@ function switchPage(pageId, element) {
 
 // ========== SEARCH FUNCTIONS ==========
 const roomsData = {
-    "101": { building: "Building A", floor: "First Floor", location: "Near North Elevator", image: "./room1.png" },
-    "102": { building: "Building A", floor: "First Floor", location: "Near South Elevator", image: "./room2.png" },
+    "101": { building: "Building A", floor: "First Floor", location: "Near North Elevator", image: "room1.png" },
+    "102": { building: "Building A", floor: "First Floor", location: "Near South Elevator", image: "room2.png" },
     "201": { building: "Building B", floor: "Second Floor", location: "Next to Faculty Office", image: "https://via.placeholder.com/400x200?text=Room+201" }
 };
 
