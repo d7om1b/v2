@@ -56,6 +56,13 @@ body {
     overflow: hidden;
     position: relative;
 }
+.screen {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+body {
+    touch-action: pan-y pinch-zoom;
+}
 
 /* ========== SCREENS ========== */
 .screen {
