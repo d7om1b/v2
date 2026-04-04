@@ -1,19 +1,21 @@
 // Service Worker for PMU Student Hub
 const CACHE_NAME = 'pmu-student-hub-v1';
 const urlsToCache = [
-  './',                    // الصفحة الرئيسية
+  './',
   './index.html',
   './global.css',
   './home.css',
   './search.css',
   './profile.css',
   './script.js',
+  './icon.png',
   './logo.png',
   './P2.png',
+  './B1.jpg',
   './manifest.json'
 ];
 
-// تثبيت Service Worker
+// Install Service Worker
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -24,7 +26,7 @@ self.addEventListener('install', event => {
   );
 });
 
-// جلب الملفات
+// Fetch files
 self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request)
@@ -34,7 +36,7 @@ self.addEventListener('fetch', event => {
   );
 });
 
-// تحديث Service Worker
+// Activate Service Worker
 self.addEventListener('activate', event => {
   const cacheWhitelist = [CACHE_NAME];
   event.waitUntil(
