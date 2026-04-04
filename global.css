@@ -31,6 +31,11 @@
 }
 
 
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: var(--primary-dark);
+    color: var(--white);
+}
 
 .hidden {
     display: none !important;
@@ -41,7 +46,7 @@
     display: flex;
     flex-direction: column;
     height: 100vh;
-    height: calc(var(--vh, 1vh) * 100);
+    height: calc(var(--vh, 1vh) * 105);
     background: var(--primary-dark);
     position: relative;
 }
