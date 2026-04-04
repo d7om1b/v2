@@ -1,6 +1,6 @@
 {
-  "name": "PMU Student Hub",
-  "short_name": "PMU Hub",
+  "name": "Class Finder",
+  "short_name": "Class Finder",
   "description": "Student Campus Navigator & Academic Tracker",
   "start_url": "./index.html",
   "scope": ".",
