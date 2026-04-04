@@ -288,3 +288,19 @@ function loadSavedAvatar() {
 // إضافة استدعاء تحميل الصورة في DOMContentLoaded
 // أضف هذا السطر داخل document.addEventListener('DOMContentLoaded', function() { ... })
 // loadSavedAvatar();
+
+// تسجيل Service Worker
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+            .then(reg => console.log('✅ SW registered:', reg.scope))
+            .catch(err => console.log('❌ SW failed:', err));
+    });
+}
+
+// التحقق من وجود الـ Manifest
+if (document.querySelector('link[rel="manifest"]')) {
+    console.log('✅ Manifest link found');
+} else {
+    console.log('❌ Manifest link missing');
+}
