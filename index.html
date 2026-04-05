@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Class Finder</title>
+    <title>PMU Student Hub</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Class Finde">
+    <meta name="apple-mobile-web-app-title" content="PMU Hub">
     <meta name="theme-color" content="#1a5f9e">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -14,21 +14,8 @@
     <link rel="stylesheet" href="home.css">
     <link rel="stylesheet" href="search.css">
     <link rel="stylesheet" href="profile.css">
-    
-<link rel="icon" type="image/png" href="icon.png">
-<link rel="apple-touch-icon" href="icon.png">
-<link rel="apple-touch-icon" sizes="180x180" href="icon.png">
-<link rel="apple-touch-icon" sizes="152x152" href="icon.png">
-<link rel="apple-touch-icon" sizes="120x120" href="icon.png">
-<link rel="apple-touch-icon" sizes="76x76" href="icon.png">
+    <link rel="stylesheet" href="map.css">
 
-<!-- Manifest -->
-<link rel="manifest" href="manifest.json">
-
-<!-- أيقونات إضافية -->
-<link rel="shortcut icon" href="icon.png" type="image/x-icon">
-<meta name="msapplication-TileImage" content="icon.png">
-    
 </head>
 <body>
 
@@ -36,7 +23,7 @@
 <div id="splash-screen">
     <div class="splash-content">
         <img src="./logo.png" alt="PMU Logo" class="splash-logo-img">
-        <h2>Class Finder</h2>
+        <h2>PMU Student Hub</h2>
         <div class="loader"></div>
     </div>
 </div>
@@ -45,92 +32,165 @@
     
     <div class="screens-wrapper">
         
-        <!-- HOME PAGE -->
-        <main id="home-page" class="screen active">
-            <div class="home-header">
-                <div class="student-card">
-                    <div class="welcome-text">
-                        <p>Welcome back,</p>
-                        <h1>Hadeel Al-Shammari</h1>
-                    </div>
-                    <div class="student-info-row">
-                        <div class="student-id-box">
-                            <i class="fa-solid fa-id-card"></i>
-                            <span>Student ID:</span>
-                            <strong>2021001234</strong>
-                        </div>
-                        <div class="level-badge">
-                            <i class="fa-solid fa-graduation-cap"></i>
-                            <span>Level:</span>
-                            <strong>6th Semester</strong>
-                        </div>
-                        <div class="notification-icon" onclick="openNotificationsModal()">
-                            <i class="fa-regular fa-bell"></i>
-                            <span class="notification-badge">3</span>
-                        </div>
-                    </div>
+ <!-- ==================== HOME PAGE ==================== -->
+<main id="home-page" class="screen active">
+    <div class="home-header">
+        <div class="student-card">
+            <div class="welcome-text">
+                <p>Welcome back,</p>
+                <h1>Hadeel Al-Mutairi</h1>
+            </div>
+            <div class="student-info-row">
+                <div class="student-id-box">
+                    <i class="fa-solid fa-id-card"></i>
+                    <span>Student ID:</span>
+                    <strong>2021001234</strong>
+                </div>
+                <div class="level-badge">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <span>Level:</span>
+                    <strong>6th Semester</strong>
+                </div>
+                <div class="notification-icon" onclick="openNotificationsModal()">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="notification-badge">3</span>
                 </div>
             </div>
-            
-            <div class="search-bar" onclick="switchPage('search-page')">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <span>Search for classrooms...</span>
-                <i class="fa-solid fa-chevron-right"></i>
-            </div>
-            
-            <div class="stats-row">
-                <div class="stat-item"><i class="fa-solid fa-calendar-check"></i><div><span class="stat-num">12</span><span class="stat-label">Events</span></div></div>
-                <div class="stat-item"><i class="fa-solid fa-location-dot"></i><div><span class="stat-num">24</span><span class="stat-label">Rooms</span></div></div>
-                <div class="stat-item"><i class="fa-solid fa-clock"></i><div><span class="stat-num">5</span><span class="stat-label">Reminders</span></div></div>
-            </div>
+        </div>
+    </div>
+    
+    <div class="search-bar" onclick="switchPage('search-page')">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <span>Search for classrooms...</span>
+        <i class="fa-solid fa-chevron-right"></i>
+    </div>
+    
+    <div class="stats-row">
+        <div class="stat-item"><i class="fa-solid fa-calendar-check"></i><div><span class="stat-num">12</span><span class="stat-label">Events</span></div></div>
+        <div class="stat-item"><i class="fa-solid fa-location-dot"></i><div><span class="stat-num">24</span><span class="stat-label">Rooms</span></div></div>
+        <div class="stat-item"><i class="fa-solid fa-clock"></i><div><span class="stat-num">5</span><span class="stat-label">Reminders</span></div></div>
+    </div>
 
-            <div class="places-section">
-                <div class="section-header"><h3>Recommended for you</h3><span>See all →</span></div>
-                <div class="place-card">
-                    <div class="place-image"><img src="./B1.jpg" alt="University" class="place-img"><span class="rating-badge">⭐ 4.8</span></div>
-                    <h4 class="place-title">Prince Mohammad Bin Fahd University</h4>
-                    <p class="place-location"><i class="fa-solid fa-location-dot"></i> Saudi Arabia, Khobar</p>
-                    <div class="card-details"><div class="detail-item"><i class="fa-regular fa-clock"></i> 2 hours</div><div class="detail-item"><i class="fa-solid fa-temperature-low"></i> 32°C</div></div>
-                    <button class="book-btn" onclick="alert('Booking feature coming soon!')">Get Directions</button>
-                </div>
-            </div>
+    <div class="places-section">
+        <div class="section-header"><h3>Recommended for you</h3><span>See all →</span></div>
+        <div class="place-card">
+            <div class="place-image"><img src="./B1.jpg" alt="University" class="place-img"><span class="rating-badge">⭐ 4.8</span></div>
+            <h4 class="place-title">Prince Mohammad Bin Fahd University</h4>
+            <p class="place-location"><i class="fa-solid fa-location-dot"></i> Saudi Arabia, Khobar</p>
+            <div class="card-details"><div class="detail-item"><i class="fa-regular fa-clock"></i> 2 hours</div><div class="detail-item"><i class="fa-solid fa-temperature-low"></i> 32°C</div></div>
+            <button class="book-btn" onclick="alert('Booking feature coming soon!')">Book Now →</button>
+        </div>
+    </div>
 
-            <div class="section-title"><h3>Today's Schedule</h3><button onclick="showToast('View all')">See all</button></div>
-            <div class="schedule-cards">
-                <div class="schedule-card ongoing">
-                    <div class="card-time"><span>09:00</span><span>10:30</span></div>
-                    <div class="card-info"><h4>Computer Science 101</h4><p>Dr. Ahmed Al-Rashid</p><div class="location"><i class="fa-solid fa-location-dot"></i> Room 101, Building A</div></div>
-                    <div class="card-status">Ongoing</div>
-                </div>
-                <div class="schedule-card">
-                    <div class="card-time"><span>11:00</span><span>12:30</span></div>
-                    <div class="card-info"><h4>Mathematics 201</h4><p>Dr. Sarah Al-Otaibi</p><div class="location"><i class="fa-solid fa-location-dot"></i> Room 201, Building B</div></div>
-                    <div class="card-status upcoming">Upcoming</div>
-                </div>
-                <div class="schedule-card">
-                    <div class="card-time"><span>14:00</span><span>15:30</span></div>
-                    <div class="card-info"><h4>Physics Lab</h4><p>Dr. Khalid Al-Zahrani</p><div class="location"><i class="fa-solid fa-location-dot"></i> Lab 3, Building C</div></div>
-                    <div class="card-status upcoming">Upcoming</div>
-                </div>
-            </div>
-            
-            <div class="section-title"><h3>Announcements</h3><button onclick="showToast('View all')">See all</button></div>
-            <div class="announcement-cards">
-                <div class="announcement-card"><div class="announce-icon"><i class="fa-regular fa-newspaper"></i></div><div class="announce-content"><h4>Registration for Spring 2025</h4><p>Registration opens next week.</p><span>2 hours ago</span></div></div>
-                <div class="announcement-card"><div class="announce-icon"><i class="fa-solid fa-graduation-cap"></i></div><div class="announce-content"><h4>Final Exam Schedule Released</h4><p>Final exams will begin on December 15th.</p><span>1 day ago</span></div></div>
-            </div>
-        </main>
+    <div class="section-title"><h3>Today's Schedule</h3><button onclick="showToast('View all')">See all</button></div>
+    <div class="schedule-cards">
+        <div class="schedule-card ongoing">
+            <div class="card-time"><span>09:00</span><span>10:30</span></div>
+            <div class="card-info"><h4>Computer Science 101</h4><p>Dr. Ahmed Al-Rashid</p><div class="location"><i class="fa-solid fa-location-dot"></i> Room 101, Building A</div></div>
+            <div class="card-status">Ongoing</div>
+        </div>
+        <div class="schedule-card">
+            <div class="card-time"><span>11:00</span><span>12:30</span></div>
+            <div class="card-info"><h4>Mathematics 201</h4><p>Dr. Sarah Al-Otaibi</p><div class="location"><i class="fa-solid fa-location-dot"></i> Room 201, Building B</div></div>
+            <div class="card-status upcoming">Upcoming</div>
+        </div>
+        <div class="schedule-card">
+            <div class="card-time"><span>14:00</span><span>15:30</span></div>
+            <div class="card-info"><h4>Physics Lab</h4><p>Dr. Khalid Al-Zahrani</p><div class="location"><i class="fa-solid fa-location-dot"></i> Lab 3, Building C</div></div>
+            <div class="card-status upcoming">Upcoming</div>
+        </div>
+    </div>
+    
+    <div class="section-title"><h3>Announcements</h3><button onclick="showToast('View all')">See all</button></div>
+    <div class="announcement-cards">
+        <div class="announcement-card"><div class="announce-icon"><i class="fa-regular fa-newspaper"></i></div><div class="announce-content"><h4>Registration for Spring 2025</h4><p>Registration opens next week.</p><span>2 hours ago</span></div></div>
+        <div class="announcement-card"><div class="announce-icon"><i class="fa-solid fa-graduation-cap"></i></div><div class="announce-content"><h4>Final Exam Schedule Released</h4><p>Final exams will begin on December 15th.</p><span>1 day ago</span></div></div>
+    </div>
+    
+    <!-- 🔥 FAVORITES SECTION - أضف هذا القسم هنا 🔥 -->
+    <div class="section-header">
+        <h3><i class="fa-solid fa-heart" style="color: #ff4444;"></i> Favorite Rooms</h3>
+       
+        <button class="clearAllFavorites" onclick="clearAllFavorites()">Clear all</button>
+    </div>
+    
+    <div id="favorites-container" class="favorites-list">
+        <!-- سيتم عرض المفضلات هنا عبر JavaScript -->
+                         <img id="room-image" src="" alt="Room Image" class="room-image">
+
+    </div>
+    <!-- ==================================== -->
+    
+</main>
         
-        <!-- SEARCH PAGE -->
-        <section id="search-page" class="screen">
-            <div class="search-header"><button class="back-btn" onclick="switchPage('home-page')"><i class="fa-solid fa-arrow-left"></i></button><h2>Find Classroom</h2><div style="width:40px;"></div></div>
-            <div class="search-content">
-                <div class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input type="text" id="roomInput" placeholder="Enter room number (101, 201, etc.)"></div>
-                <button class="search-action" onclick="searchRoom()"><i class="fa-solid fa-location-arrow"></i> Search</button>
-                <div class="recent-section"><div class="recent-header"><span>Recent Searches</span><button onclick="clearRecentSearches()">Clear</button></div><div id="recent-list" class="recent-list"></div></div>
-                <div id="room-result" class="room-result hidden"><div class="result-box"><img id="room-image" src="" alt="Room Image" class="room-image"><div class="result-icon"><i class="fa-solid fa-door-open"></i></div><h3 id="room-number">Room 101</h3><div class="result-details"><div class="detail"><i class="fa-solid fa-building"></i><span id="room-building">Building A</span></div><div class="detail"><i class="fa-solid fa-layer-group"></i><span id="room-floor">First Floor</span></div><div class="detail"><i class="fa-solid fa-location-dot"></i><span id="room-location">Near North Elevator</span></div></div><button class="direction-btn" onclick="showToast('Directions coming soon')"><i class="fa-solid fa-map"></i> Get Directions</button></div></div>
+<!-- SEARCH PAGE -->
+<section id="search-page" class="screen">
+    <div class="search-header">
+        <button class="back-btn" onclick="switchPage('home-page')">
+            <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <h2>Find Classroom</h2>
+        <div style="width:40px;"></div>
+    </div>
+    
+    <div class="search-content">
+        <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="roomInput" placeholder="Enter room number (101, 201, etc.)">
+        </div>
+        
+        <button class="search-action" onclick="searchRoom()">
+            <i class="fa-solid fa-location-arrow"></i> Search
+        </button>
+        
+        <div class="recent-section">
+            <div class="recent-header">
+                <span>Recent Searches</span>
+                <button onclick="clearRecentSearches()">Clear</button>
             </div>
-        </section>
+            <div id="recent-list" class="recent-list"></div>
+        </div>
+        
+        <div id="room-result" class="room-result hidden">
+            <div class="result-box">
+                <img id="room-image" src="" alt="Room Image" class="room-image">
+                <div class="result-icon">
+                    <i class="fa-solid fa-door-open"></i>
+                </div>
+                <h3 id="room-number">Room 101</h3>
+                
+                <div class="result-details">
+                    <div class="detail">
+                        <i class="fa-solid fa-building"></i>
+                        <span id="room-building">Building A</span>
+                    </div>
+                    <div class="detail">
+                        <i class="fa-solid fa-layer-group"></i>
+                        <span id="room-floor">First Floor</span>
+                    </div>
+                    <div class="detail">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span id="room-location">Near North Elevator</span>
+                    </div>
+                </div>
+                
+                <!-- Action Buttons: Favorite & Share -->
+                <div class="action-buttons">
+                    <button class="action-btn favorite" onclick="toggleFavorite()">
+                        <i class="fa-regular fa-heart"></i> Favorite
+                    </button>
+                    <button class="action-btn share" onclick="shareLocation()">
+                        <i class="fa-solid fa-share-nodes"></i> Share
+                    </button>
+                </div>
+                
+                <button class="direction-btn" onclick="showToast('Directions coming soon')">
+                    <i class="fa-solid fa-map"></i> Get Directions
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
         
         <!-- PROFILE PAGE -->
         <section id="profile-page" class="screen">
@@ -266,12 +326,41 @@
     </div>
 </section>
         
+
+<!-- MAP PAGE -->
+<!-- MAP PAGE - Simple Test -->
+<!-- MAP PAGE - PMU Interactive Map -->
+<section id="map-page" class="screen" style="display: flex; flex-direction: column; height: 100%;">
+    <div class="map-header" style="flex-shrink: 0; padding: 15px 20px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: space-between;">
+        <button class="back-btn" onclick="switchPage('home-page')" style="background: none; border: none; color: white; font-size: 20px; cursor: pointer;">
+            <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <h2 style="color: white; font-size: 18px; margin: 0;">PMU Campus Map</h2>
+        <div style="width: 40px;"></div>
+    </div>
+    
+    <!-- Interactive Map Area -->
+    <div id="map-container" style="flex: 1; overflow: hidden; position: relative; background: #0d2a1d; cursor: grab;">
+        <img id="campus-map-image" src="map.png" alt="PMU Campus Map" 
+             style="position: absolute; transform-origin: 0 0; width: 100%; height: auto; display: block;">
+    </div>
+    
+    <!-- Zoom Controls -->
+    <div style="position: absolute; bottom: 80px; right: 15px; display: flex; flex-direction: column; gap: 8px; z-index: 20;">
+        <button id="zoomInBtn" style="width: 44px; height: 44px; background: #112a4e; border: 1px solid #f39c12; border-radius: 50%; color: white; font-size: 20px; cursor: pointer;">+</button>
+        <button id="zoomOutBtn" style="width: 44px; height: 44px; background: #112a4e; border: 1px solid #f39c12; border-radius: 50%; color: white; font-size: 20px; cursor: pointer;">-</button>
+        <button id="resetBtn" style="width: 44px; height: 44px; background: #112a4e; border: 1px solid #f39c12; border-radius: 50%; color: white; font-size: 16px; cursor: pointer;">⟳</button>
+    </div>
+</section>
+
+
     </div>
 
     <!-- BOTTOM NAVIGATION -->
     <nav class="bottom-nav">
         <div class="nav-item active" onclick="switchPage('home-page', this)"><i class="fa-solid fa-house"></i><span>Home</span></div>
         <div class="nav-item" onclick="switchPage('search-page', this)"><i class="fa-solid fa-magnifying-glass"></i><span>Search</span></div>
+       <div class="nav-item" onclick="switchPage('map-page', this)"><i class="fa-solid fa-map"></i><span>Map</span></div>
         <div class="nav-item" onclick="switchPage('profile-page', this)"><i class="fa-solid fa-user"></i><span>Profile</span></div>
     </nav>
     
