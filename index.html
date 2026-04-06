@@ -31,7 +31,6 @@
     <link rel="stylesheet" href="map.css">
 
 </head>
-<body>
 
 <!-- شاشة التحميل -->
 <div id="splash-screen">
@@ -88,11 +87,11 @@
     <div class="places-section">
         <div class="section-header"><h3>Recommended for you</h3><span>See all →</span></div>
         <div class="place-card">
-            <div class="place-image"><img src="./B1.jpg" alt="University" class="place-img"></div>
+            <div class="place-image"><img src="./B1.jpg" alt="University" class="place-img"><span class="rating-badge">⭐ 4.8</span></div>
             <h4 class="place-title">Prince Mohammad Bin Fahd University</h4>
             <p class="place-location"><i class="fa-solid fa-location-dot"></i> Saudi Arabia, Khobar</p>
             <div class="card-details"><div class="detail-item"><i class="fa-regular fa-clock"></i> 2 hours</div><div class="detail-item"><i class="fa-solid fa-temperature-low"></i> 32°C</div></div>
-            <button class="book-btn" onclick="alert('Booking feature coming soon!')">Get Directions</button>
+            <button class="book-btn" onclick="alert('Booking feature coming soon!')">Book Now →</button>
         </div>
     </div>
 
@@ -130,7 +129,6 @@
     
     <div id="favorites-container" class="favorites-list">
         <!-- سيتم عرض المفضلات هنا عبر JavaScript -->
-                         <img id="room-image" src="" alt="Room Image" class="room-image">
 
     </div>
     <!-- ==================================== -->
@@ -198,9 +196,9 @@
                     </button>
                 </div>
                 
-                <button class="direction-btn" onclick="showToast('Directions coming soon')">
-                    <i class="fa-solid fa-map"></i> Get Directions
-                </button>
+<button class="direction-btn" onclick="showDirections()">
+    <i class="fa-solid fa-map"></i> Get Directions
+</button>
             </div>
         </div>
     </div>
@@ -340,33 +338,32 @@
     </div>
 </section>
         
-
-<!-- MAP PAGE -->
-<!-- MAP PAGE - Simple Test -->
-<!-- MAP PAGE - PMU Interactive Map -->
-<section id="map-page" class="screen" style="display: flex; flex-direction: column; height: 100%;">
-    <div class="map-header" style="flex-shrink: 0; padding: 15px 20px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: space-between;">
-        <button class="back-btn" onclick="switchPage('home-page')" style="background: none; border: none; color: white; font-size: 20px; cursor: pointer;">
-            <i class="fa-solid fa-arrow-left"></i>
+<!-- MAP PAGE - FULL SCREEN FIX -->
+<section id="map-page" class="screen">
+    <!-- زر الرجوع -->
+    <div style="position: fixed; top: 15px; left: 15px; z-index: 100;">
+        <button onclick="switchPage('search-page')" style="background: rgba(0,0,0,0.6); border: none; padding: 10px 18px; border-radius: 30px; color: white; font-size: 14px; cursor: pointer;">
+            <i class="fa-solid fa-arrow-left"></i> Back
         </button>
-        <h2 style="color: white; font-size: 18px; margin: 0;">PMU Campus Map</h2>
-        <div style="width: 40px;"></div>
     </div>
     
-    <!-- Interactive Map Area -->
-    <div id="map-container" style="flex: 1; overflow: hidden; position: relative; background: #0d2a1d; cursor: grab;">
-        <img id="campus-map-image" src="map.png" alt="PMU Campus Map" 
-             style="position: absolute; transform-origin: 0 0; width: 100%; height: auto; display: block;">
+    <!-- عنوان الصفحة -->
+    <div style="position: fixed; top: 15px; left: 50%; transform: translateX(-50%); z-index: 100;">
+        <h2 style="color: white; margin: 0; font-size: 18px; text-shadow: 0 1px 2px black; background: rgba(0,0,0,0.4); padding: 5px 15px; border-radius: 30px;">Campus Map</h2>
     </div>
     
-    <!-- Zoom Controls -->
-    <div style="position: absolute; bottom: 80px; right: 15px; display: flex; flex-direction: column; gap: 8px; z-index: 20;">
-        <button id="zoomInBtn" style="width: 44px; height: 44px; background: #112a4e; border: 1px solid #f39c12; border-radius: 50%; color: white; font-size: 20px; cursor: pointer;">+</button>
-        <button id="zoomOutBtn" style="width: 44px; height: 44px; background: #112a4e; border: 1px solid #f39c12; border-radius: 50%; color: white; font-size: 20px; cursor: pointer;">-</button>
-        <button id="resetBtn" style="width: 44px; height: 44px; background: #112a4e; border: 1px solid #f39c12; border-radius: 50%; color: white; font-size: 16px; cursor: pointer;">⟳</button>
+    <!-- الصورة - تأخذ كل الشاشة -->
+    <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #0d2a1d; overflow: auto;">
+        <img id="campusMapImage" src="map1.png" alt="Campus Map" style="width: 100%; height: auto; min-height: 100%; display: block;">
+    </div>
+    
+    <!-- أزرار التحكم -->
+    <div style="position: fixed; bottom: 20px; right: 15px; display: flex; flex-direction: column; gap: 10px; z-index: 100;">
+        <button onclick="zoomMapIn()" style="background: rgba(0,0,0,0.6); border: none; width: 45px; height: 45px; border-radius: 50%; color: white; font-size: 22px; cursor: pointer;">+</button>
+        <button onclick="zoomMapOut()" style="background: rgba(0,0,0,0.6); border: none; width: 45px; height: 45px; border-radius: 50%; color: white; font-size: 22px; cursor: pointer;">-</button>
+        <button onclick="resetMapView()" style="background: rgba(0,0,0,0.6); border: none; width: 45px; height: 45px; border-radius: 50%; color: white; font-size: 16px; cursor: pointer;">⟳</button>
     </div>
 </section>
-
 
     </div>
 
