@@ -368,14 +368,7 @@ function loadMapImage() {
     }
 }
 
-// استدعاء عند فتح صفحة الخريطة
-const originalSwitch = switchPage;
-window.switchPage = function(pageId, element) {
-    originalSwitch(pageId, element);
-    if (pageId === 'map-page') {
-        setTimeout(loadMapImage, 50);
-    }
-};
+
 // ========== FULL SCREEN MAP ZOOM ==========
 let mapZoom = 1;
 
@@ -477,3 +470,100 @@ if (mapContainer && mapImg) {
     
     console.log('✅ Pinch zoom map ready');
 }
+
+// ========== FULL SCREEN MAP WITH PINCH ZOOM ==========
+function initPinchMap() {
+    const container = document.getElementById('mapTouchContainer');
+    const img = document.getElementById('mapImage');
+    
+    if (!container || !img) {
+        console.log('Map elements not found');
+        return;
+    }
+    
+    let scale = 1;
+    let translateX = 0;
+    let translateY = 0;
+    let initialDistance = 0;
+    let initialScale = 1;
+    let startX = 0, startY = 0;
+    let isDragging = false;
+    
+    function updateTransform() {
+        img.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+    }
+    
+    // اللمس بتصبعين (Pinch to Zoom)
+    container.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 2) {
+            e.preventDefault();
+            const dx = e.touches[0].clientX - e.touches[1].clientX;
+            const dy = e.touches[0].clientY - e.touches[1].clientY;
+            initialDistance = Math.hypot(dx, dy);
+            initialScale = scale;
+        } else if (e.touches.length === 1) {
+            isDragging = true;
+            startX = e.touches[0].clientX - translateX;
+            startY = e.touches[0].clientY - translateY;
+        }
+    });
+    
+    container.addEventListener('touchmove', (e) => {
+        if (e.touches.length === 2) {
+            e.preventDefault();
+            const dx = e.touches[0].clientX - e.touches[1].clientX;
+            const dy = e.touches[0].clientY - e.touches[1].clientY;
+            const distance = Math.hypot(dx, dy);
+            let newScale = initialScale * (distance / initialDistance);
+            newScale = Math.min(3, Math.max(0.5, newScale));
+            if (Math.abs(newScale - scale) > 0.01) {
+                scale = newScale;
+                updateTransform();
+            }
+        } else if (e.touches.length === 1 && isDragging) {
+            e.preventDefault();
+            translateX = e.touches[0].clientX - startX;
+            translateY = e.touches[0].clientY - startY;
+            updateTransform();
+        }
+    });
+    
+    container.addEventListener('touchend', () => {
+        isDragging = false;
+    });
+    
+    // أزرار التحكم
+    document.getElementById('btnZoomIn')?.addEventListener('click', () => {
+        scale = Math.min(3, scale + 0.2);
+        updateTransform();
+    });
+    
+    document.getElementById('btnZoomOut')?.addEventListener('click', () => {
+        scale = Math.max(0.5, scale - 0.2);
+        updateTransform();
+    });
+    
+    document.getElementById('btnReset')?.addEventListener('click', () => {
+        scale = 1;
+        translateX = 0;
+        translateY = 0;
+        updateTransform();
+    });
+    
+    console.log('✅ Map ready - pinch to zoom works!');
+}
+
+// تشغيل الخريطة عند فتح الصفحة
+document.addEventListener('DOMContentLoaded', function() {
+    // تأخير بسيط لضمان تحميل العناصر
+    setTimeout(initPinchMap, 100);
+});
+
+// إعادة تهيئة الخريطة عند فتح صفحة الخريطة
+const originalSwitch = switchPage;
+window.switchPage = function(pageId, element) {
+    originalSwitch(pageId, element);
+    if (pageId === 'map-page') {
+        setTimeout(initPinchMap, 150);
+    }
+};
