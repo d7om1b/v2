@@ -408,19 +408,22 @@ function resetMapView() {
     }
 }
 // ========== SMOOTH PINCH ZOOM MAP ==========
-let mapImage = document.getElementById('campusMapImage');
+let mapImg = document.getElementById('campusMapImage');
 let mapContainer = document.getElementById('mapContainer');
 
-if (mapContainer && mapImage) {
+if (mapContainer && mapImg) {
     let scale = 1;
     let translateX = 0;
     let translateY = 0;
     let initialDistance = 0;
     let initialScale = 1;
     let initialX = 0, initialY = 0;
-    let lastScale = 1;
     
-    // منع التمرير الافتراضي للصفحة
+    function updateTransform() {
+        mapImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+    }
+    
+    // تكبير باللمس (Pinch)
     mapContainer.addEventListener('touchstart', (e) => {
         if (e.touches.length === 2) {
             e.preventDefault();
@@ -432,7 +435,7 @@ if (mapContainer && mapImage) {
             initialX = e.touches[0].clientX - translateX;
             initialY = e.touches[0].clientY - translateY;
         }
-    }, { passive: false });
+    });
     
     mapContainer.addEventListener('touchmove', (e) => {
         if (e.touches.length === 2) {
@@ -442,56 +445,35 @@ if (mapContainer && mapImage) {
             const distance = Math.hypot(dx, dy);
             let newScale = initialScale * (distance / initialDistance);
             newScale = Math.min(3, Math.max(0.5, newScale));
-            
             if (Math.abs(newScale - scale) > 0.01) {
                 scale = newScale;
-                updateMapTransform();
+                updateTransform();
             }
         } else if (e.touches.length === 1) {
             e.preventDefault();
             translateX = e.touches[0].clientX - initialX;
             translateY = e.touches[0].clientY - initialY;
-            updateMapTransform();
+            updateTransform();
         }
-    }, { passive: false });
-    
-    mapContainer.addEventListener('touchend', () => {
-        lastScale = scale;
     });
-    
-    // تحسين سلاسة التحديث
-    let transformRequest;
-    function updateMapTransform() {
-        if (transformRequest) cancelAnimationFrame(transformRequest);
-        transformRequest = requestAnimationFrame(() => {
-            if (mapImage) {
-                mapImage.style.transform = `translate3d(${translateX}px, ${translateY}px, 0) scale(${scale})`;
-                mapImage.style.willChange = 'transform';
-            }
-        });
-    }
     
     // أزرار التحكم
     document.getElementById('zoomInBtn')?.addEventListener('click', () => {
         scale = Math.min(3, scale + 0.2);
-        updateMapTransform();
+        updateTransform();
     });
     
     document.getElementById('zoomOutBtn')?.addEventListener('click', () => {
         scale = Math.max(0.5, scale - 0.2);
-        updateMapTransform();
+        updateTransform();
     });
     
     document.getElementById('resetBtn')?.addEventListener('click', () => {
         scale = 1;
         translateX = 0;
         translateY = 0;
-        updateMapTransform();
+        updateTransform();
     });
     
-    // إضافة تأثير حركة ناعم
-    mapImage.style.transition = 'transform 0.05s ease-out';
-    mapImage.style.willChange = 'transform';
-    
-    console.log('✅ Smooth pinch zoom map initialized');
+    console.log('✅ Pinch zoom map ready');
 }

@@ -31,6 +31,7 @@
     <link rel="stylesheet" href="map.css">
 
 </head>
+<body>
 
 <!-- شاشة التحميل -->
 <div id="splash-screen">
@@ -338,33 +339,28 @@
     </div>
 </section>
         
-<!-- MAP PAGE - FULL SCREEN FIX -->
+<!-- MAP PAGE - FULL SCREEN WITH PINCH ZOOM -->
 <section id="map-page" class="screen">
-    <!-- زر الرجوع -->
-    <div style="position: fixed; top: 15px; left: 15px; z-index: 100;">
-        <button onclick="switchPage('search-page')" style="background: rgba(0,0,0,0.6); border: none; padding: 10px 18px; border-radius: 30px; color: white; font-size: 14px; cursor: pointer;">
+    <!-- Header صغير في الأعلى -->
+    <div style="position: absolute; top: 0; left: 0; right: 0; z-index: 10; padding: 15px; background: linear-gradient(to bottom, rgba(0,0,0,0.5), transparent); display: flex; align-items: center; gap: 15px;">
+        <button onclick="switchPage('search-page')" style="background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); border: none; padding: 8px 16px; border-radius: 30px; color: white; cursor: pointer;">
             <i class="fa-solid fa-arrow-left"></i> Back
         </button>
+        <h2 style="color: white; margin: 0; font-size: 18px; text-shadow: 0 1px 2px rgba(0,0,0,0.3);">Campus Map</h2>
     </div>
     
-    <!-- عنوان الصفحة -->
-    <div style="position: fixed; top: 15px; left: 50%; transform: translateX(-50%); z-index: 100;">
-        <h2 style="color: white; margin: 0; font-size: 18px; text-shadow: 0 1px 2px black; background: rgba(0,0,0,0.4); padding: 5px 15px; border-radius: 30px;">Campus Map</h2>
-    </div>
-    
-    <!-- الصورة - تأخذ كل الشاشة -->
-    <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #0d2a1d; overflow: auto;">
-        <img id="campusMapImage" src="map2.png" alt="Campus Map" style="width: 100%; height: auto; min-height: 100%; display: block;">
+    <!-- حاوية للتكبير والتحريك -->
+    <div id="mapContainer" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #0d2a1d; overflow: hidden; touch-action: none;">
+        <img id="campusMapImage" src="map2.png" alt="Campus Map" style="width: 100%; height: auto; display: block; transform-origin: 0 0;">
     </div>
     
     <!-- أزرار التحكم -->
-    <div style="position: fixed; bottom: 20px; right: 15px; display: flex; flex-direction: column; gap: 10px; z-index: 100;">
-        <button onclick="zoomMapIn()" style="background: rgba(0,0,0,0.6); border: none; width: 45px; height: 45px; border-radius: 50%; color: white; font-size: 22px; cursor: pointer;">+</button>
-        <button onclick="zoomMapOut()" style="background: rgba(0,0,0,0.6); border: none; width: 45px; height: 45px; border-radius: 50%; color: white; font-size: 22px; cursor: pointer;">-</button>
-        <button onclick="resetMapView()" style="background: rgba(0,0,0,0.6); border: none; width: 45px; height: 45px; border-radius: 50%; color: white; font-size: 16px; cursor: pointer;">⟳</button>
+    <div style="position: fixed; bottom: 20px; right: 15px; display: flex; flex-direction: column; gap: 10px; z-index: 20;">
+        <button id="zoomInBtn" style="background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); width: 44px; height: 44px; border-radius: 50%; color: white; font-size: 20px; cursor: pointer;">+</button>
+        <button id="zoomOutBtn" style="background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); width: 44px; height: 44px; border-radius: 50%; color: white; font-size: 20px; cursor: pointer;">-</button>
+        <button id="resetBtn" style="background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); width: 44px; height: 44px; border-radius: 50%; color: white; font-size: 16px; cursor: pointer;">⟳</button>
     </div>
 </section>
-
     </div>
 
     <!-- BOTTOM NAVIGATION -->
