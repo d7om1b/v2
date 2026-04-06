@@ -189,3 +189,20 @@
     transform-origin: 0 0;
     transition: transform 0.2s ease;
 }
+/* تحسين سلاسة التكبير والتصغير */
+#mapContainer {
+    touch-action: none;
+    overflow: hidden;
+}
+
+#campusMapImage {
+    transition: transform 0.05s ease-out;
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+/* تحسين أداء التمرير */
+* {
+    -webkit-overflow-scrolling: touch;
+}
