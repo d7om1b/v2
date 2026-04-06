@@ -8,6 +8,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Class Finder">
     <meta name="theme-color" content="#1a5f9e">
+    <meta name="mobile-web-app-capable" content="yes">
 
     <!-- PWA / Manifest -->
     <link rel="manifest" href="manifest.json">
@@ -339,30 +340,26 @@
     </div>
 </section>
         
-<!-- MAP PAGE - FULL SCREEN PINCH ZOOM -->
+<!-- MAP PAGE -->
 <section id="map-page" class="screen">
-    <!-- زر الرجوع -->
     <div style="position: fixed; top: 15px; left: 15px; z-index: 200;">
-        <button onclick="switchPage('search-page')" style="background: rgba(0,0,0,0.7); border: none; padding: 10px 18px; border-radius: 30px; color: white; font-size: 14px; cursor: pointer; backdrop-filter: blur(10px);">
+        <button onclick="switchPage('search-page')" style="background: rgba(0,0,0,0.7); border: none; padding: 10px 18px; border-radius: 30px; color: white; cursor: pointer;">
             <i class="fa-solid fa-arrow-left"></i> Back
         </button>
     </div>
     
-    <!-- عنوان -->
     <div style="position: fixed; top: 15px; left: 50%; transform: translateX(-50%); z-index: 200;">
-        <h2 style="color: white; margin: 0; font-size: 16px; background: rgba(0,0,0,0.5); padding: 6px 15px; border-radius: 30px; backdrop-filter: blur(10px);">Campus Map</h2>
+        <h2 style="color: white; margin: 0; font-size: 16px; background: rgba(0,0,0,0.5); padding: 6px 15px; border-radius: 30px;">Campus Map</h2>
     </div>
     
-    <!-- حاوية الخريطة - تغطي كل الشاشة -->
-    <div id="mapTouchContainer" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #0d2a1d; overflow: hidden; touch-action: none;">
+    <div id="mapTouchContainer" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden; touch-action: none; background: #112a4e;">
         <img id="mapImage" src="map2.png" alt="Campus Map" style="width: 100%; height: auto; display: block; transform-origin: 0 0;">
     </div>
     
-    <!-- أزرار التحكم -->
     <div style="position: fixed; bottom: 20px; right: 15px; display: flex; flex-direction: column; gap: 10px; z-index: 200;">
-        <button id="btnZoomIn" style="background: rgba(0,0,0,0.7); border: none; width: 48px; height: 48px; border-radius: 50%; color: white; font-size: 22px; cursor: pointer; backdrop-filter: blur(10px);">+</button>
-        <button id="btnZoomOut" style="background: rgba(0,0,0,0.7); border: none; width: 48px; height: 48px; border-radius: 50%; color: white; font-size: 22px; cursor: pointer; backdrop-filter: blur(10px);">-</button>
-        <button id="btnReset" style="background: rgba(0,0,0,0.7); border: none; width: 48px; height: 48px; border-radius: 50%; color: white; font-size: 16px; cursor: pointer; backdrop-filter: blur(10px);">⟳</button>
+        <button id="btnZoomIn" style="background: rgba(0,0,0,0.7); border: none; width: 48px; height: 48px; border-radius: 50%; color: white; font-size: 22px; cursor: pointer;">+</button>
+        <button id="btnZoomOut" style="background: rgba(0,0,0,0.7); border: none; width: 48px; height: 48px; border-radius: 50%; color: white; font-size: 22px; cursor: pointer;">-</button>
+        <button id="btnReset" style="background: rgba(0,0,0,0.7); border: none; width: 48px; height: 48px; border-radius: 50%; color: white; font-size: 16px; cursor: pointer;">⟳</button>
     </div>
 </section>
 

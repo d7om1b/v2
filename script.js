@@ -37,19 +37,6 @@ function switchPage(pageId, element) {
     }
 }
 
-function showScreen(screenId, element) {
-    console.log('Showing screen:', screenId);
-    document.querySelectorAll('.screen').forEach(screen => {
-        screen.classList.remove('active');
-    });
-    const target = document.getElementById(screenId);
-    if (target) target.classList.add('active');
-    if (element) {
-        document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-        element.classList.add('active');
-    }
-}
-
 // ========== ROOMS DATA ==========
 const roomsData = {
     "101": { building: "Building A", floor: "First Floor", location: "Near North Elevator", image: "room1.png" },
@@ -180,13 +167,9 @@ function toggleFavorite() {
     if (favorites.includes(roomNumber)) {
         favorites = favorites.filter(r => r !== roomNumber);
         showToast(`Room ${roomNumber} removed from favorites`);
-        const favBtn = document.querySelector('.action-btn.favorite i');
-        if (favBtn) favBtn.classList.remove('fa-solid');
     } else {
         favorites.push(roomNumber);
         showToast(`Room ${roomNumber} added to Favorites! ❤️`);
-        const favBtn = document.querySelector('.action-btn.favorite i');
-        if (favBtn) favBtn.classList.remove('fa-regular');
     }
     localStorage.setItem('pmu_favorites', JSON.stringify(favorites));
     renderFavorites();
@@ -246,41 +229,6 @@ function shareLocation() {
     }
 }
 
-// ========== MAP FUNCTIONS (SIMPLE & CLEAN) ==========
-let currentZoom = 1;
-
-function zoomMapIn() {
-    const img = document.querySelector('#map-page img');
-    if (img) {
-        currentZoom = Math.min(3, currentZoom + 0.2);
-        img.style.transform = `scale(${currentZoom})`;
-        img.style.transformOrigin = '0 0';
-        img.style.transition = 'transform 0.2s ease';
-        console.log('Zoom in:', currentZoom);
-    }
-}
-
-function zoomMapOut() {
-    const img = document.querySelector('#map-page img');
-    if (img) {
-        currentZoom = Math.max(0.5, currentZoom - 0.2);
-        img.style.transform = `scale(${currentZoom})`;
-        img.style.transformOrigin = '0 0';
-        img.style.transition = 'transform 0.2s ease';
-        console.log('Zoom out:', currentZoom);
-    }
-}
-
-function resetMapView() {
-    const img = document.querySelector('#map-page img');
-    if (img) {
-        currentZoom = 1;
-        img.style.transform = 'scale(1)';
-        img.style.transformOrigin = '0 0';
-        console.log('Map reset');
-    }
-}
-
 // ========== DIRECTIONS FUNCTION ==========
 function showDirections() {
     const roomNumber = document.getElementById('room-number').innerText;
@@ -288,191 +236,10 @@ function showDirections() {
     const roomFloor = document.getElementById('room-floor').innerText;
     localStorage.setItem('directions_room', JSON.stringify({ number: roomNumber, building: roomBuilding, floor: roomFloor }));
     switchPage('map-page');
-    setTimeout(() => resetMapView(), 100);
 }
 
-// ========== SPLASH SCREEN ==========
-window.addEventListener('load', function() {
-    setTimeout(() => {
-        const splash = document.getElementById('splash-screen');
-        const container = document.querySelector('.app-container');
-        if (splash) {
-            splash.style.opacity = '0';
-            setTimeout(() => {
-                splash.classList.add('hidden');
-                if (container) container.classList.remove('hidden');
-                setRealHeight();
-            }, 500);
-        }
-    }, 1500);
-    setRealHeight();
-    loadSavedAvatar();
-});
-
-window.addEventListener('resize', setRealHeight);
-window.addEventListener('orientationchange', setRealHeight);
-
-// ========== DOM CONTENT LOADED ==========
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM loaded - PMU Student Hub ready');
-    const signinBtn = document.getElementById('signinBtn');
-    if (signinBtn) signinBtn.addEventListener('click', (e) => { e.preventDefault(); handleStudentLogin(); });
-    const logoutBtn = document.getElementById('logoutBtn');
-    if (logoutBtn) logoutBtn.addEventListener('click', () => logoutFromDashboard());
-    const roomInput = document.getElementById('roomInput');
-    if (roomInput) roomInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') searchRoom(); });
-    renderFavorites();
-});
-
-// ========== EXPORT FUNCTIONS ==========
-window.switchPage = switchPage;
-window.showScreen = showScreen;
-window.showToast = showToast;
-window.searchRoom = searchRoom;
-window.clearRecentSearches = clearRecentSearches;
-window.openNotificationsModal = openNotificationsModal;
-window.closeNotificationsModal = closeNotificationsModal;
-window.markAllNotificationsRead = markAllNotificationsRead;
-window.handleStudentLogin = handleStudentLogin;
-window.logoutFromDashboard = logoutFromDashboard;
-window.changeProfileAvatar = changeProfileAvatar;
-window.searchBuilding = searchBuilding;
-window.toggleFavorite = toggleFavorite;
-window.removeFavorite = removeFavorite;
-window.clearAllFavorites = clearAllFavorites;
-window.goToRoom = goToRoom;
-window.shareLocation = shareLocation;
-window.showDirections = showDirections;
-window.zoomMapIn = zoomMapIn;
-window.zoomMapOut = zoomMapOut;
-window.resetMapView = resetMapView;
-
-// تحديث searchRoom لتخزين رقم الغرفة الحالي
-const originalSearchRoom = searchRoom;
-window.searchRoom = function() {
-    const input = document.getElementById('roomInput').value.trim();
-    window.currentRoomNumber = input;
-    const favBtn = document.querySelector('.action-btn.favorite i');
-    if (favBtn) {
-        if (favorites.includes(input)) favBtn.classList.remove('fa-regular');
-        else favBtn.classList.remove('fa-solid');
-    }
-    return originalSearchRoom.apply(this, arguments);
-};
-// قم بتعيين الصورة بعد تحميل الصفحة
-function loadMapImage() {
-    const mapContainer = document.querySelector('#map-page div[style*="flex: 1"]');
-    if (mapContainer) {
-        mapContainer.innerHTML = `<img src="map.png" alt="Campus Map" style="width: 100%; height: auto; display: block;">`;
-        console.log('Map image loaded');
-    }
-}
-
-
-// ========== FULL SCREEN MAP ZOOM ==========
-let mapZoom = 1;
-
-function zoomMapIn() {
-    const img = document.getElementById('campusMapImage');
-    if (img) {
-        mapZoom = Math.min(3, mapZoom + 0.2);
-        img.style.transform = `scale(${mapZoom})`;
-        img.style.transformOrigin = '0 0';
-        img.style.transition = 'transform 0.2s ease';
-    }
-}
-
-function zoomMapOut() {
-    const img = document.getElementById('campusMapImage');
-    if (img) {
-        mapZoom = Math.max(0.5, mapZoom - 0.2);
-        img.style.transform = `scale(${mapZoom})`;
-        img.style.transformOrigin = '0 0';
-        img.style.transition = 'transform 0.2s ease';
-    }
-}
-
-function resetMapView() {
-    const img = document.getElementById('campusMapImage');
-    if (img) {
-        mapZoom = 1;
-        img.style.transform = 'scale(1)';
-        img.style.transformOrigin = '0 0';
-    }
-}
-// ========== SMOOTH PINCH ZOOM MAP ==========
-let mapImg = document.getElementById('campusMapImage');
-let mapContainer = document.getElementById('mapContainer');
-
-if (mapContainer && mapImg) {
-    let scale = 1;
-    let translateX = 0;
-    let translateY = 0;
-    let initialDistance = 0;
-    let initialScale = 1;
-    let initialX = 0, initialY = 0;
-    
-    function updateTransform() {
-        mapImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
-    }
-    
-    // تكبير باللمس (Pinch)
-    mapContainer.addEventListener('touchstart', (e) => {
-        if (e.touches.length === 2) {
-            e.preventDefault();
-            const dx = e.touches[0].clientX - e.touches[1].clientX;
-            const dy = e.touches[0].clientY - e.touches[1].clientY;
-            initialDistance = Math.hypot(dx, dy);
-            initialScale = scale;
-        } else if (e.touches.length === 1) {
-            initialX = e.touches[0].clientX - translateX;
-            initialY = e.touches[0].clientY - translateY;
-        }
-    });
-    
-    mapContainer.addEventListener('touchmove', (e) => {
-        if (e.touches.length === 2) {
-            e.preventDefault();
-            const dx = e.touches[0].clientX - e.touches[1].clientX;
-            const dy = e.touches[0].clientY - e.touches[1].clientY;
-            const distance = Math.hypot(dx, dy);
-            let newScale = initialScale * (distance / initialDistance);
-            newScale = Math.min(3, Math.max(0.5, newScale));
-            if (Math.abs(newScale - scale) > 0.01) {
-                scale = newScale;
-                updateTransform();
-            }
-        } else if (e.touches.length === 1) {
-            e.preventDefault();
-            translateX = e.touches[0].clientX - initialX;
-            translateY = e.touches[0].clientY - initialY;
-            updateTransform();
-        }
-    });
-    
-    // أزرار التحكم
-    document.getElementById('zoomInBtn')?.addEventListener('click', () => {
-        scale = Math.min(3, scale + 0.2);
-        updateTransform();
-    });
-    
-    document.getElementById('zoomOutBtn')?.addEventListener('click', () => {
-        scale = Math.max(0.5, scale - 0.2);
-        updateTransform();
-    });
-    
-    document.getElementById('resetBtn')?.addEventListener('click', () => {
-        scale = 1;
-        translateX = 0;
-        translateY = 0;
-        updateTransform();
-    });
-    
-    console.log('✅ Pinch zoom map ready');
-}
-
-// ========== FULL SCREEN MAP WITH PINCH ZOOM ==========
-function initPinchMap() {
+// ========== PINCH ZOOM MAP (ONLY ZOOM IN, NO ZOOM OUT BELOW 1) ==========
+function initMap() {
     const container = document.getElementById('mapTouchContainer');
     const img = document.getElementById('mapImage');
     
@@ -493,7 +260,7 @@ function initPinchMap() {
         img.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
     }
     
-    // اللمس بتصبعين (Pinch to Zoom)
+    // تكبير باللمس (Pinch to Zoom) - فقط تكبير، لا تصغير عن 1
     container.addEventListener('touchstart', (e) => {
         if (e.touches.length === 2) {
             e.preventDefault();
@@ -515,7 +282,8 @@ function initPinchMap() {
             const dy = e.touches[0].clientY - e.touches[1].clientY;
             const distance = Math.hypot(dx, dy);
             let newScale = initialScale * (distance / initialDistance);
-            newScale = Math.min(3, Math.max(0.5, newScale));
+            // 🔥 منع التصغير عن الحجم الطبيعي (الحد الأدنى = 1)
+            newScale = Math.min(3, Math.max(1, newScale));
             if (Math.abs(newScale - scale) > 0.01) {
                 scale = newScale;
                 updateTransform();
@@ -539,7 +307,8 @@ function initPinchMap() {
     });
     
     document.getElementById('btnZoomOut')?.addEventListener('click', () => {
-        scale = Math.max(0.5, scale - 0.2);
+        // 🔥 منع التصغير عن الحجم الطبيعي
+        scale = Math.max(1, scale - 0.2);
         updateTransform();
     });
     
@@ -550,20 +319,79 @@ function initPinchMap() {
         updateTransform();
     });
     
-    console.log('✅ Map ready - pinch to zoom works!');
+    console.log('✅ Pinch zoom map ready - zoom in only, min scale = 1');
 }
-
-// تشغيل الخريطة عند فتح الصفحة
-document.addEventListener('DOMContentLoaded', function() {
-    // تأخير بسيط لضمان تحميل العناصر
-    setTimeout(initPinchMap, 100);
+// ========== SPLASH SCREEN ==========
+window.addEventListener('load', function() {
+    setTimeout(() => {
+        const splash = document.getElementById('splash-screen');
+        const container = document.querySelector('.app-container');
+        if (splash) {
+            splash.style.opacity = '0';
+            setTimeout(() => {
+                splash.classList.add('hidden');
+                if (container) container.classList.remove('hidden');
+                setRealHeight();
+                initMap();
+            }, 500);
+        }
+    }, 1500);
+    setRealHeight();
+    loadSavedAvatar();
 });
 
-// إعادة تهيئة الخريطة عند فتح صفحة الخريطة
+window.addEventListener('resize', setRealHeight);
+window.addEventListener('orientationchange', setRealHeight);
+
+// ========== DOM CONTENT LOADED ==========
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded - PMU Student Hub ready');
+    
+    const signinBtn = document.getElementById('signinBtn');
+    if (signinBtn) signinBtn.addEventListener('click', (e) => { e.preventDefault(); handleStudentLogin(); });
+    
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) logoutBtn.addEventListener('click', () => logoutFromDashboard());
+    
+    const roomInput = document.getElementById('roomInput');
+    if (roomInput) roomInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') searchRoom(); });
+    
+    renderFavorites();
+    initMap();
+});
+
+// ========== SWITCH PAGE WITH MAP REINIT ==========
 const originalSwitch = switchPage;
 window.switchPage = function(pageId, element) {
     originalSwitch(pageId, element);
     if (pageId === 'map-page') {
-        setTimeout(initPinchMap, 150);
+        setTimeout(initMap, 100);
     }
+};
+
+// ========== EXPORT FUNCTIONS ==========
+window.switchPage = switchPage;
+window.showToast = showToast;
+window.searchRoom = searchRoom;
+window.clearRecentSearches = clearRecentSearches;
+window.openNotificationsModal = openNotificationsModal;
+window.closeNotificationsModal = closeNotificationsModal;
+window.markAllNotificationsRead = markAllNotificationsRead;
+window.handleStudentLogin = handleStudentLogin;
+window.logoutFromDashboard = logoutFromDashboard;
+window.changeProfileAvatar = changeProfileAvatar;
+window.searchBuilding = searchBuilding;
+window.toggleFavorite = toggleFavorite;
+window.removeFavorite = removeFavorite;
+window.clearAllFavorites = clearAllFavorites;
+window.goToRoom = goToRoom;
+window.shareLocation = shareLocation;
+window.showDirections = showDirections;
+
+// تحديث searchRoom لتخزين رقم الغرفة الحالي
+const originalSearchRoom = searchRoom;
+window.searchRoom = function() {
+    const input = document.getElementById('roomInput').value.trim();
+    window.currentRoomNumber = input;
+    return originalSearchRoom.apply(this, arguments);
 };
