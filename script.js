@@ -1,5 +1,5 @@
 // ========================================
-// PMU STUDENT HUB - MAIN SCRIPT (FIXED)
+// PMU STUDENT HUB - MAIN SCRIPT (CLEAN)
 // Version: 2.0
 // ========================================
 
@@ -52,46 +52,15 @@ function showScreen(screenId, element) {
 
 // ========== ROOMS DATA ==========
 const roomsData = {
-    "101": { 
-        building: "Building A", 
-        floor: "First Floor", 
-        location: "Near North Elevator", 
-        image: "room1.png" 
-    },
-    "102": { 
-        building: "Building A", 
-        floor: "First Floor", 
-        location: "Near South Elevator", 
-        image: "room2.png"
-    },
-    "201": { 
-        building: "Building B", 
-        floor: "Second Floor", 
-        location: "Next to Faculty Office", 
-        image: "room1.png"
-    }
+    "101": { building: "Building A", floor: "First Floor", location: "Near North Elevator", image: "room1.png" },
+    "102": { building: "Building A", floor: "First Floor", location: "Near South Elevator", image: "room2.png" },
+    "201": { building: "Building B", floor: "Second Floor", location: "Next to Faculty Office", image: "room1.png" }
 };
 
-// Default rooms for favorites
 const defaultRooms = {
-    "101": {
-        building: "Building A",
-        floor: "First Floor",
-        location: "Near North Elevator",
-        image: "room1.png"
-    },
-    "102": {
-        building: "Building A",
-        floor: "First Floor",
-        location: "Near South Elevator",
-        image: "room1.png"
-    },
-    "201": {
-        building: "Building B",
-        floor: "Second Floor",
-        location: "Next to Faculty Office",
-        image: "room1.png"
-    }
+    "101": { building: "Building A", floor: "First Floor", location: "Near North Elevator", image: "room1.png" },
+    "102": { building: "Building A", floor: "First Floor", location: "Near South Elevator", image: "room1.png" },
+    "201": { building: "Building B", floor: "Second Floor", location: "Next to Faculty Office", image: "room1.png" }
 };
 
 let customRooms = JSON.parse(localStorage.getItem('pmu_custom_rooms')) || {};
@@ -100,12 +69,7 @@ let customRooms = JSON.parse(localStorage.getItem('pmu_custom_rooms')) || {};
 function searchRoom() {
     const input = document.getElementById('roomInput').value.trim();
     const resultDiv = document.getElementById('room-result');
-    
-    if (!input) { 
-        showToast('Please enter a room number', true); 
-        return; 
-    }
-    
+    if (!input) { showToast('Please enter a room number', true); return; }
     const roomData = roomsData[input];
     if (roomData) {
         document.getElementById('room-image').src = roomData.image;
@@ -121,9 +85,7 @@ function searchRoom() {
     }
 }
 
-function clearRecentSearches() { 
-    showToast('Recent searches cleared'); 
-}
+function clearRecentSearches() { showToast('Recent searches cleared'); }
 
 // ========== NOTIFICATIONS ==========
 function openNotificationsModal() {
@@ -134,19 +96,13 @@ function closeNotificationsModal() {
     const modal = document.getElementById('notifications-modal');
     if (modal) modal.classList.add('hidden');
 }
-function markAllNotificationsRead() { 
-    closeNotificationsModal(); 
-    showToast('All marked as read'); 
-}
+function markAllNotificationsRead() { closeNotificationsModal(); showToast('All marked as read'); }
 
 // ========== LOGIN & DASHBOARD ==========
 function handleStudentLogin() {
     const emailInput = document.querySelector('#profile-page .pmu-outlined-field input[type="email"]');
     const passInput = document.querySelector('#profile-page .pmu-outlined-field input[type="password"]');
-    if (!emailInput || !passInput) { 
-        showToast('Login form not found', true); 
-        return; 
-    }
+    if (!emailInput || !passInput) { showToast('Login form not found', true); return; }
     const email = emailInput.value.trim();
     const password = passInput.value.trim();
     if (email && password) {
@@ -186,11 +142,9 @@ function changeProfileAvatar() {
             const reader = new FileReader();
             reader.onload = function(event) {
                 const avatarImg = document.getElementById('profile-avatar-img');
-                if (avatarImg) {
-                    avatarImg.src = event.target.result;
-                    localStorage.setItem('user_avatar', event.target.result);
-                    showToast('Profile picture updated!');
-                }
+                if (avatarImg) avatarImg.src = event.target.result;
+                localStorage.setItem('user_avatar', event.target.result);
+                showToast('Profile picture updated!');
             };
             reader.readAsDataURL(file);
         }
@@ -206,7 +160,6 @@ function loadSavedAvatar() {
     }
 }
 
-// ========== SEARCH BUILDING ==========
 function searchBuilding(roomNumber) {
     const roomInput = document.getElementById('roomInput');
     if (roomInput) {
@@ -218,125 +171,23 @@ function searchBuilding(roomNumber) {
     }
 }
 
-// ========== INTERACTIVE MAP ==========
-let mapScale = 1;
-let mapTranslateX = 0, mapTranslateY = 0;
-let mapIsDragging = false;
-let mapStartX, mapStartY;
-let mapContainer, mapImage;
-
-function initInteractiveMap() {
-    mapContainer = document.getElementById('map-container');
-    mapImage = document.getElementById('campus-map-image');
-    
-    if (!mapContainer || !mapImage) {
-        console.log('Map container or image not found');
-        return;
-    }
-    
-    console.log('Map initialized');
-    
-    mapContainer.addEventListener('mousedown', onMapDragStart);
-    window.addEventListener('mousemove', onMapDragMove);
-    window.addEventListener('mouseup', onMapDragEnd);
-    mapContainer.addEventListener('touchstart', onMapTouchStart);
-    window.addEventListener('touchmove', onMapTouchMove);
-    window.addEventListener('touchend', onMapDragEnd);
-    
-    document.getElementById('zoomInBtn')?.addEventListener('click', () => {
-        mapScale = Math.min(3, mapScale + 0.2);
-        updateMapTransform();
-    });
-    
-    document.getElementById('zoomOutBtn')?.addEventListener('click', () => {
-        mapScale = Math.max(0.5, mapScale - 0.2);
-        updateMapTransform();
-    });
-    
-    document.getElementById('resetBtn')?.addEventListener('click', () => {
-        mapScale = 1;
-        mapTranslateX = 0;
-        mapTranslateY = 0;
-        updateMapTransform();
-    });
-    
-    updateMapTransform();
-}
-
-function onMapDragStart(e) {
-    e.preventDefault();
-    mapIsDragging = true;
-    mapStartX = e.clientX - mapTranslateX;
-    mapStartY = e.clientY - mapTranslateY;
-    if (mapContainer) mapContainer.style.cursor = 'grabbing';
-}
-
-function onMapDragMove(e) {
-    if (!mapIsDragging) return;
-    e.preventDefault();
-    mapTranslateX = e.clientX - mapStartX;
-    mapTranslateY = e.clientY - mapStartY;
-    updateMapTransform();
-}
-
-function onMapTouchStart(e) {
-    if (e.touches.length === 1) {
-        e.preventDefault();
-        const touch = e.touches[0];
-        mapIsDragging = true;
-        mapStartX = touch.clientX - mapTranslateX;
-        mapStartY = touch.clientY - mapTranslateY;
-    }
-}
-
-function onMapTouchMove(e) {
-    if (!mapIsDragging || e.touches.length !== 1) return;
-    e.preventDefault();
-    const touch = e.touches[0];
-    mapTranslateX = touch.clientX - mapStartX;
-    mapTranslateY = touch.clientY - mapStartY;
-    updateMapTransform();
-}
-
-function onMapDragEnd() {
-    mapIsDragging = false;
-    if (mapContainer) mapContainer.style.cursor = 'grab';
-}
-
-function updateMapTransform() {
-    if (mapImage) {
-        mapImage.style.transform = `translate(${mapTranslateX}px, ${mapTranslateY}px) scale(${mapScale})`;
-    }
-}
-
 // ========== FAVORITES FUNCTIONS ==========
 let favorites = JSON.parse(localStorage.getItem('pmu_favorites')) || [];
 
 function toggleFavorite() {
     const roomNumber = window.currentRoomNumber;
-    if (!roomNumber) {
-        showToast("No room selected!", true);
-        return;
-    }
-    
+    if (!roomNumber) { showToast("No room selected!", true); return; }
     if (favorites.includes(roomNumber)) {
         favorites = favorites.filter(r => r !== roomNumber);
         showToast(`Room ${roomNumber} removed from favorites`);
         const favBtn = document.querySelector('.action-btn.favorite i');
-        if (favBtn) {
-            favBtn.classList.remove('fa-solid');
-            favBtn.classList.add('fa-regular');
-        }
+        if (favBtn) favBtn.classList.remove('fa-solid');
     } else {
         favorites.push(roomNumber);
         showToast(`Room ${roomNumber} added to Favorites! ❤️`);
         const favBtn = document.querySelector('.action-btn.favorite i');
-        if (favBtn) {
-            favBtn.classList.remove('fa-regular');
-            favBtn.classList.add('fa-solid');
-        }
+        if (favBtn) favBtn.classList.remove('fa-regular');
     }
-    
     localStorage.setItem('pmu_favorites', JSON.stringify(favorites));
     renderFavorites();
 }
@@ -344,38 +195,20 @@ function toggleFavorite() {
 function renderFavorites() {
     const container = document.getElementById('favorites-container');
     if (!container) return;
-    
     if (favorites.length === 0) {
-        container.innerHTML = `
-            <div class="empty-favorites">
-                <i class="fa-regular fa-heart"></i>
-                <p>No favorite rooms yet</p>
-                <span>Save rooms from search results</span>
-            </div>
-        `;
+        container.innerHTML = `<div class="empty-favorites"><i class="fa-regular fa-heart"></i><p>No favorite rooms yet</p><span>Save rooms from search results</span></div>`;
         return;
     }
-    
     const allRooms = { ...defaultRooms, ...customRooms };
-    
     container.innerHTML = favorites.map(room => {
         const roomData = allRooms[room];
-        return `
-            <div class="favorite-card" onclick="goToRoom('${room}')">
-                <div class="favorite-info">
-                    <div class="favorite-icon">
-                        <i class="fa-solid fa-door-open"></i>
-                    </div>
-                    <div class="favorite-details">
-                        <h4>Room ${room}</h4>
-                        <p>${roomData?.building || 'Building'} • ${roomData?.floor || 'Floor 1'}</p>
-                    </div>
-                </div>
-                <button class="remove-fav-btn" onclick="event.stopPropagation(); removeFavorite('${room}')">
-                    <i class="fa-solid fa-trash-can"></i>
-                </button>
+        return `<div class="favorite-card" onclick="goToRoom('${room}')">
+            <div class="favorite-info">
+                <div class="favorite-icon"><i class="fa-solid fa-door-open"></i></div>
+                <div class="favorite-details"><h4>Room ${room}</h4><p>${roomData?.building || 'Building'} • ${roomData?.floor || 'Floor 1'}</p></div>
             </div>
-        `;
+            <button class="remove-fav-btn" onclick="event.stopPropagation(); removeFavorite('${room}')"><i class="fa-solid fa-trash-can"></i></button>
+        </div>`;
     }).join('');
 }
 
@@ -387,10 +220,7 @@ function removeFavorite(roomNumber) {
 }
 
 function clearAllFavorites() {
-    if (favorites.length === 0) {
-        showToast("No favorites to clear", true);
-        return;
-    }
+    if (favorites.length === 0) { showToast("No favorites to clear", true); return; }
     if (confirm('Are you sure you want to remove all favorite rooms?')) {
         favorites = [];
         localStorage.setItem('pmu_favorites', JSON.stringify(favorites));
@@ -400,8 +230,7 @@ function clearAllFavorites() {
 }
 
 function goToRoom(roomNumber) {
-    const input = document.getElementById('roomInput');
-    if (input) input.value = roomNumber;
+    document.getElementById('roomInput').value = roomNumber;
     searchRoom();
     showScreen('search-page');
 }
@@ -410,15 +239,56 @@ function shareLocation() {
     const roomNumber = window.currentRoomNumber;
     if (roomNumber) {
         const text = `📍 Room ${roomNumber} at PMU University`;
-        if (navigator.share) {
-            navigator.share({ title: 'PMU Location', text: text });
-        } else {
-            navigator.clipboard.writeText(text);
-            showToast('Location copied to clipboard!');
-        }
+        if (navigator.share) navigator.share({ title: 'PMU Location', text: text });
+        else navigator.clipboard.writeText(text).then(() => showToast('Location copied!'));
     } else {
         showToast('No room selected', true);
     }
+}
+
+// ========== MAP FUNCTIONS (SIMPLE & CLEAN) ==========
+let currentZoom = 1;
+
+function zoomMapIn() {
+    const img = document.querySelector('#map-page img');
+    if (img) {
+        currentZoom = Math.min(3, currentZoom + 0.2);
+        img.style.transform = `scale(${currentZoom})`;
+        img.style.transformOrigin = '0 0';
+        img.style.transition = 'transform 0.2s ease';
+        console.log('Zoom in:', currentZoom);
+    }
+}
+
+function zoomMapOut() {
+    const img = document.querySelector('#map-page img');
+    if (img) {
+        currentZoom = Math.max(0.5, currentZoom - 0.2);
+        img.style.transform = `scale(${currentZoom})`;
+        img.style.transformOrigin = '0 0';
+        img.style.transition = 'transform 0.2s ease';
+        console.log('Zoom out:', currentZoom);
+    }
+}
+
+function resetMapView() {
+    const img = document.querySelector('#map-page img');
+    if (img) {
+        currentZoom = 1;
+        img.style.transform = 'scale(1)';
+        img.style.transformOrigin = '0 0';
+        console.log('Map reset');
+    }
+}
+
+// ========== DIRECTIONS FUNCTION ==========
+function showDirections() {
+    const roomNumber = document.getElementById('room-number').innerText;
+    const roomBuilding = document.getElementById('room-building').innerText;
+    const roomFloor = document.getElementById('room-floor').innerText;
+    localStorage.setItem('directions_room', JSON.stringify({ number: roomNumber, building: roomBuilding, floor: roomFloor }));
+    switchPage('map-page');
+    setTimeout(() => resetMapView(), 100);
 }
 
 // ========== SPLASH SCREEN ==========
@@ -432,7 +302,6 @@ window.addEventListener('load', function() {
                 splash.classList.add('hidden');
                 if (container) container.classList.remove('hidden');
                 setRealHeight();
-                initInteractiveMap();
             }, 500);
         }
     }, 1500);
@@ -446,34 +315,13 @@ window.addEventListener('orientationchange', setRealHeight);
 // ========== DOM CONTENT LOADED ==========
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM loaded - PMU Student Hub ready');
-    
     const signinBtn = document.getElementById('signinBtn');
-    if (signinBtn) {
-        signinBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            handleStudentLogin();
-        });
-    }
-    
+    if (signinBtn) signinBtn.addEventListener('click', (e) => { e.preventDefault(); handleStudentLogin(); });
     const logoutBtn = document.getElementById('logoutBtn');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', function() {
-            logoutFromDashboard();
-        });
-    }
-    
+    if (logoutBtn) logoutBtn.addEventListener('click', () => logoutFromDashboard());
     const roomInput = document.getElementById('roomInput');
-    if (roomInput) {
-        roomInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') searchRoom();
-        });
-    }
-    
+    if (roomInput) roomInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') searchRoom(); });
     renderFavorites();
-    
-    if (document.getElementById('map-container')) {
-        initInteractiveMap();
-    }
 });
 
 // ========== EXPORT FUNCTIONS ==========
@@ -494,25 +342,68 @@ window.removeFavorite = removeFavorite;
 window.clearAllFavorites = clearAllFavorites;
 window.goToRoom = goToRoom;
 window.shareLocation = shareLocation;
+window.showDirections = showDirections;
+window.zoomMapIn = zoomMapIn;
+window.zoomMapOut = zoomMapOut;
+window.resetMapView = resetMapView;
 
 // تحديث searchRoom لتخزين رقم الغرفة الحالي
 const originalSearchRoom = searchRoom;
 window.searchRoom = function() {
     const input = document.getElementById('roomInput').value.trim();
     window.currentRoomNumber = input;
-    
-    setTimeout(() => {
-        const favBtn = document.querySelector('.action-btn.favorite i');
-        if (favBtn) {
-            if (favorites.includes(input)) {
-                favBtn.classList.remove('fa-regular');
-                favBtn.classList.add('fa-solid');
-            } else {
-                favBtn.classList.remove('fa-solid');
-                favBtn.classList.add('fa-regular');
-            }
-        }
-    }, 100);
-    
+    const favBtn = document.querySelector('.action-btn.favorite i');
+    if (favBtn) {
+        if (favorites.includes(input)) favBtn.classList.remove('fa-regular');
+        else favBtn.classList.remove('fa-solid');
+    }
     return originalSearchRoom.apply(this, arguments);
 };
+// قم بتعيين الصورة بعد تحميل الصفحة
+function loadMapImage() {
+    const mapContainer = document.querySelector('#map-page div[style*="flex: 1"]');
+    if (mapContainer) {
+        mapContainer.innerHTML = `<img src="map.png" alt="Campus Map" style="width: 100%; height: auto; display: block;">`;
+        console.log('Map image loaded');
+    }
+}
+
+// استدعاء عند فتح صفحة الخريطة
+const originalSwitch = switchPage;
+window.switchPage = function(pageId, element) {
+    originalSwitch(pageId, element);
+    if (pageId === 'map-page') {
+        setTimeout(loadMapImage, 50);
+    }
+};
+// ========== FULL SCREEN MAP ZOOM ==========
+let mapZoom = 1;
+
+function zoomMapIn() {
+    const img = document.getElementById('campusMapImage');
+    if (img) {
+        mapZoom = Math.min(3, mapZoom + 0.2);
+        img.style.transform = `scale(${mapZoom})`;
+        img.style.transformOrigin = '0 0';
+        img.style.transition = 'transform 0.2s ease';
+    }
+}
+
+function zoomMapOut() {
+    const img = document.getElementById('campusMapImage');
+    if (img) {
+        mapZoom = Math.max(0.5, mapZoom - 0.2);
+        img.style.transform = `scale(${mapZoom})`;
+        img.style.transformOrigin = '0 0';
+        img.style.transition = 'transform 0.2s ease';
+    }
+}
+
+function resetMapView() {
+    const img = document.getElementById('campusMapImage');
+    if (img) {
+        mapZoom = 1;
+        img.style.transform = 'scale(1)';
+        img.style.transformOrigin = '0 0';
+    }
+}

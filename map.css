@@ -163,3 +163,29 @@
 .hidden {
     display: none !important;
 }
+/* إصلاح ظهور الصورة */
+#map-page {
+    background: #112a4e;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+#map-page .map-image-wrapper {
+    flex: 1;
+    overflow: auto;
+    background: #0d2a1d;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+#map-page .map-image-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transform-origin: 0 0;
+    transition: transform 0.2s ease;
+}
