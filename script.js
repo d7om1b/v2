@@ -1,5 +1,5 @@
 // ========================================
-// PMU STUDENT HUB - MAIN SCRIPT (CLEAN)
+// PMU STUDENT HUB - MAIN SCRIPT (FINAL)
 // Version: 2.0
 // ========================================
 
@@ -238,7 +238,7 @@ function showDirections() {
     switchPage('map-page');
 }
 
-// ========== PINCH ZOOM MAP (ONLY ZOOM IN, NO ZOOM OUT BELOW 1) ==========
+// ========== PINCH ZOOM MAP WITH BOUNDARIES ==========
 function initMap() {
     const container = document.getElementById('mapTouchContainer');
     const img = document.getElementById('mapImage');
@@ -256,11 +256,48 @@ function initMap() {
     let startX = 0, startY = 0;
     let isDragging = false;
     
+function applyBoundaries() {
+    if (!img || !container) return;
+    
+    const imgWidth = img.offsetWidth * scale;
+    const imgHeight = img.offsetHeight * scale;
+    const containerWidth = container.offsetWidth;
+    const containerHeight = container.offsetHeight;
+    
+    // حساب الحدود
+    let minX = (containerWidth - imgWidth) / 2;
+    let maxX = (containerWidth - imgWidth) / 2;
+    let minY = (containerHeight - imgHeight) / 2;
+    let maxY = (containerHeight - imgHeight) / 2;
+    
+    // إذا كانت الصورة أكبر من الحاوية، توسيع حدود التحريك
+    if (imgWidth > containerWidth) {
+        minX = -(imgWidth - containerWidth);
+        maxX = 0;
+    }
+    
+    if (imgHeight > containerHeight) {
+        minY = -(imgHeight - containerHeight);
+        maxY = 0;
+    }
+    
+    // السماح بتحريك بسيط (20px) حتى لو الصورة أصغر
+    const extraMove = 20;
+    minX -= extraMove;
+    maxX += extraMove;
+    minY -= extraMove;
+    maxY += extraMove;
+    
+    translateX = Math.min(maxX, Math.max(minX, translateX));
+    translateY = Math.min(maxY, Math.max(minY, translateY));
+}
+    
     function updateTransform() {
+        if (!img) return;
+        applyBoundaries();
         img.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
     }
     
-    // تكبير باللمس (Pinch to Zoom) - فقط تكبير، لا تصغير عن 1
     container.addEventListener('touchstart', (e) => {
         if (e.touches.length === 2) {
             e.preventDefault();
@@ -282,7 +319,6 @@ function initMap() {
             const dy = e.touches[0].clientY - e.touches[1].clientY;
             const distance = Math.hypot(dx, dy);
             let newScale = initialScale * (distance / initialDistance);
-            // 🔥 منع التصغير عن الحجم الطبيعي (الحد الأدنى = 1)
             newScale = Math.min(3, Math.max(1, newScale));
             if (Math.abs(newScale - scale) > 0.01) {
                 scale = newScale;
@@ -300,14 +336,12 @@ function initMap() {
         isDragging = false;
     });
     
-    // أزرار التحكم
     document.getElementById('btnZoomIn')?.addEventListener('click', () => {
         scale = Math.min(3, scale + 0.2);
         updateTransform();
     });
     
     document.getElementById('btnZoomOut')?.addEventListener('click', () => {
-        // 🔥 منع التصغير عن الحجم الطبيعي
         scale = Math.max(1, scale - 0.2);
         updateTransform();
     });
@@ -319,8 +353,13 @@ function initMap() {
         updateTransform();
     });
     
-    console.log('✅ Pinch zoom map ready - zoom in only, min scale = 1');
+    window.addEventListener('resize', () => {
+        updateTransform();
+    });
+    
+    console.log('✅ Pinch zoom map ready with boundaries');
 }
+
 // ========== SPLASH SCREEN ==========
 window.addEventListener('load', function() {
     setTimeout(() => {
