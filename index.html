@@ -38,7 +38,7 @@
 <div id="splash-screen">
     <div class="splash-content">
         <img src="./logo.png" alt="PMU Logo" class="splash-logo-img">
-        <h2>PMU Student Hub</h2>
+        <h2>Class Finder</h2>
         <div class="loader"></div>
     </div>
 </div>
@@ -53,18 +53,18 @@
         <div class="student-card">
             <div class="welcome-text">
                 <p>Welcome back,</p>
-                <h1>Hadeel Al-Mutairi</h1>
+                <h1>Hadeel Al-Shammari</h1>
             </div>
             <div class="student-info-row">
                 <div class="student-id-box">
                     <i class="fa-solid fa-id-card"></i>
                     <span>Student ID:</span>
-                    <strong>2021001234</strong>
+                    <strong>202001256</strong>
                 </div>
                 <div class="level-badge">
                     <i class="fa-solid fa-graduation-cap"></i>
                     <span>Level:</span>
-                    <strong>6th Semester</strong>
+                    <strong>Senior</strong>
                 </div>
                 <div class="notification-icon" onclick="openNotificationsModal()">
                     <i class="fa-regular fa-bell"></i>
@@ -97,6 +97,18 @@
         </div>
     </div>
 
+   <!-- 🔥 FAVORITES SECTION - أضف هذا القسم هنا 🔥 -->
+    <div class="section-header">
+        <h3><i class="fa-solid fa-heart" style="color: #ff4444;"></i> Favorite Rooms</h3>
+       
+        <button class="clearAllFavorites" onclick="clearAllFavorites()">Clear all</button>
+    </div>
+    
+    <div id="favorites-container" class="favorites-list">
+        <!-- سيتم عرض المفضلات هنا عبر JavaScript -->
+
+    </div>
+
     <div class="section-title"><h3>Today's Schedule</h3><button onclick="showToast('View all')">See all</button></div>
     <div class="schedule-cards">
         <div class="schedule-card ongoing">
@@ -122,17 +134,7 @@
         <div class="announcement-card"><div class="announce-icon"><i class="fa-solid fa-graduation-cap"></i></div><div class="announce-content"><h4>Final Exam Schedule Released</h4><p>Final exams will begin on December 15th.</p><span>1 day ago</span></div></div>
     </div>
     
-    <!-- 🔥 FAVORITES SECTION - أضف هذا القسم هنا 🔥 -->
-    <div class="section-header">
-        <h3><i class="fa-solid fa-heart" style="color: #ff4444;"></i> Favorite Rooms</h3>
-       
-        <button class="clearAllFavorites" onclick="clearAllFavorites()">Clear all</button>
-    </div>
-    
-    <div id="favorites-container" class="favorites-list">
-        <!-- سيتم عرض المفضلات هنا عبر JavaScript -->
-
-    </div>
+ 
     <!-- ==================================== -->
     
 </main>
@@ -157,13 +159,13 @@
             <i class="fa-solid fa-location-arrow"></i> Search
         </button>
         
-        <div class="recent-section">
-            <div class="recent-header">
-                <span>Recent Searches</span>
-                <button onclick="clearRecentSearches()">Clear</button>
-            </div>
-            <div id="recent-list" class="recent-list"></div>
-        </div>
+<div class="recent-section">
+    <div class="recent-header">
+        <span>Recent Searches</span>
+        <button onclick="clearRecentSearches()">Clear</button>
+    </div>
+    <div id="recent-list" class="recent-list"></div>
+</div>
         
         <div id="room-result" class="room-result hidden">
             <div class="result-box">
@@ -245,7 +247,7 @@
                 
                 <!-- Avatar -->
                 <div style="position: relative; width: 100px; height: 100px; margin: -60px auto 15px;">
-                    <img id="profile-avatar-img" src="https://i.pravatar.cc/300
+                    <img id="profile-avatar-img" src="A3.jpg
 " alt="Profile Avatar" style="width: 100%; height: 100%; border-radius: 50%; border: 4px solid white; object-fit: cover; box-shadow: 0 8px 20px rgba(0,0,0,0.2);">
                     <button onclick="changeProfileAvatar()" style="position: absolute; bottom: 0; right: 0; background: #f39c12; border: none; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
                         <i class="fa-solid fa-camera" style="font-size: 14px;"></i>
@@ -253,9 +255,9 @@
                 </div>
                 
                 <!-- User Info -->
-                <h2 id="dashboard-name" style="color: white; font-size: 24px; font-weight: 700; margin-bottom: 4px;">Hadeel Al-Mutairi</h2>
-                <p id="dashboard-email" style="color: rgba(255,255,255,0.7); font-size: 13px; margin-bottom: 15px;">hadeel@pmu.edu.sa</p>
-                
+                <h2>Hadeel Al-Shammari</h2>
+                <p ">202001256</p>
+                <br>
                 <!-- Stats Row -->
                 <div style="display: flex; justify-content: center; gap: 30px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1);">
                     <div style="text-align: center;">
@@ -353,7 +355,7 @@
     </div>
     
     <div id="mapTouchContainer" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden; touch-action: none; background: #112a4e;">
-        <img id="mapImage" src="map2.png" alt="Campus Map" style="width: 100%; height: auto; display: block; transform-origin: 0 0;">
+        <img id="mapImage" src="map4.png" alt="Campus Map" style="width: 100%; height: auto; display: block; transform-origin: 0 0;">
     </div>
     
 <div style="position: fixed; bottom: 75px; right: 15px; display: flex; flex-direction: column; gap: 8px; z-index: 200;">

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Admin Panel - PMU Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body class="admin-panel-body">
+    <div class="admin-container">
+        <!-- Header -->
+        <div class="admin-header">
+            <div class="admin-header-left">
+                <i class="fa-solid fa-shield-hooded"></i>
+                <h2>Admin Panel</h2>
+            </div>
+            <div class="admin-header-right">
+                <span id="adminName">Admin</span>
+                <button id="adminLogoutBtn" class="logout-btn">
+                    <i class="fa-solid fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+        
+<!-- Tabs -->
+<div class="admin-tabs">
+    <button class="tab-btn active" data-tab="rooms">
+        <i class="fa-solid fa-door-open"></i> Rooms
+    </button>
+    <button class="tab-btn" data-tab="schedule">
+        <i class="fa-solid fa-calendar"></i> Schedule
+    </button>
+    <button class="tab-btn" data-tab="appearance">
+        <i class="fa-solid fa-palette"></i> Appearance
+    </button>
+    <button class="tab-btn" data-tab="profile">
+        <i class="fa-solid fa-user-cog"></i> Profile
+    </button>
+</div>
+        
+        <!-- Tab Content: Rooms -->
+        <div id="roomsTab" class="tab-content active">
+            <div class="admin-card">
+                <h3><i class="fa-solid fa-plus-circle"></i> Add New Room</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Room Number</label>
+                        <input type="text" id="newRoomNumber" placeholder="e.g., G102">
+                    </div>
+                    <div class="form-group">
+                        <label>Building</label>
+                        <input type="text" id="newRoomBuilding" placeholder="College of...">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Floor</label>
+                        <input type="text" id="newRoomFloor" placeholder="Ground Floor">
+                    </div>
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" id="newRoomLocation" placeholder="Female/Male Campus">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Room Image</label>
+                    <input type="file" id="newRoomImage" accept="image/*">
+                </div>
+                <button id="addRoomBtn" class="admin-btn primary">
+                    <i class="fa-solid fa-plus"></i> Add Room
+                </button>
+            </div>
+            
+            <div class="admin-card">
+                <h3><i class="fa-solid fa-list"></i> All Rooms</h3>
+                <div id="roomsList" class="rooms-list">
+                    <!-- سيتم عرض الغرف هنا -->
+                </div>
+            </div>
+        </div>
+        
+<!-- Tab Content: Schedule & News -->
+<div id="scheduleTab" class="tab-content">
+    
+    <!-- ===== قسم إضافة محاضرة جديدة ===== -->
+    <div class="admin-card">
+        <h3><i class="fa-solid fa-plus-circle"></i> Add New Class</h3>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Time <span style="color:red">*</span></label>
+                <input type="text" id="newScheduleTime" placeholder="e.g., 09:00 - 10:30">
+            </div>
+            <div class="form-group">
+                <label>Course Name <span style="color:red">*</span></label>
+                <input type="text" id="newScheduleName" placeholder="e.g., Computer Science 101">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Teacher</label>
+                <input type="text" id="newScheduleTeacher" placeholder="e.g., Dr. Ahmed Al-Rashid">
+            </div>
+            <div class="form-group">
+                <label>Room/Location</label>
+                <input type="text" id="newScheduleRoom" placeholder="e.g., Room 101, Building A">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Status</label>
+                <select id="newScheduleStatus">
+                    <option value="upcoming">Upcoming</option>
+                    <option value="ongoing">Ongoing</option>
+                </select>
+            </div>
+        </div>
+        <button id="addScheduleFormBtn" class="admin-btn primary" style="width:100%;">
+            <i class="fa-solid fa-plus"></i> Add to Schedule
+        </button>
+    </div>
+    
+    <!-- ===== قائمة الجدول الحالي ===== -->
+    <div class="admin-card">
+        <h3><i class="fa-solid fa-list"></i> Current Schedule</h3>
+        <div id="scheduleList" class="schedule-admin-list">
+            <!-- سيتم عرض المحاضرات هنا -->
+        </div>
+    </div>
+    
+    <!-- ===== قسم إضافة إعلان جديد ===== -->
+    <div class="admin-card">
+        <h3><i class="fa-solid fa-bullhorn"></i> Add New Announcement</h3>
+        <div class="form-group">
+            <label>Title <span style="color:red">*</span></label>
+            <input type="text" id="newAnnounceTitle" placeholder="e.g., Registration for Spring 2025">
+        </div>
+        <div class="form-group">
+            <label>Message <span style="color:red">*</span></label>
+            <textarea id="newAnnounceMessage" rows="2" placeholder="Registration opens next week..." style="width:100%; padding:12px; border-radius:12px; border:1px solid #ddd;"></textarea>
+        </div>
+        <div class="form-group">
+            <label>Time Text</label>
+            <input type="text" id="newAnnounceTime" placeholder="e.g., 2 hours ago, 1 day ago">
+        </div>
+        <button id="addAnnouncementFormBtn" class="admin-btn primary" style="width:100%;">
+            <i class="fa-solid fa-plus"></i> Add Announcement
+        </button>
+    </div>
+    
+    <!-- ===== قائمة الإعلانات الحالية ===== -->
+    <div class="admin-card">
+        <h3><i class="fa-solid fa-list"></i> Current Announcements</h3>
+        <div id="announcementsList" class="announcements-admin-list">
+            <!-- سيتم عرض الإعلانات هنا -->
+        </div>
+    </div>
+    
+    <!-- ===== قسم الإحصائيات ===== -->
+    <div class="admin-card">
+        <h3><i class="fa-solid fa-chart-simple"></i> Statistics (Home Page)</h3>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Events Count</label>
+                <input type="number" id="statsEvents" value="12">
+            </div>
+            <div class="form-group">
+                <label>Rooms Count</label>
+                <input type="number" id="statsRooms" value="24">
+            </div>
+            <div class="form-group">
+                <label>Reminders Count</label>
+                <input type="number" id="statsReminders" value="5">
+            </div>
+        </div>
+        <button id="saveStatsBtn" class="admin-btn primary">
+            <i class="fa-solid fa-save"></i> Save Statistics
+        </button>
+    </div>
+</div>
+
+        <!-- Tab Content: Appearance -->
+        <div id="appearanceTab" class="tab-content">
+            <div class="admin-card">
+                <h3><i class="fa-solid fa-palette"></i> Colors & Theme</h3>
+                <div class="form-group">
+                    <label>Primary Color (Header/Nav)</label>
+                    <div class="color-preview-row">
+                        <input type="color" id="primaryColor" value="#112a4e">
+                        <span id="primaryColorValue">#112a4e</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Accent Color (Buttons/Highlights)</label>
+                    <div class="color-preview-row">
+                        <input type="color" id="accentColor" value="#f39c12">
+                        <span id="accentColorValue">#f39c12</span>
+                    </div>
+                </div>
+                <button id="saveColorsBtn" class="admin-btn primary">
+                    <i class="fa-solid fa-save"></i> Save Colors
+                </button>
+            </div>
+            
+            <div class="admin-card">
+                <h3><i class="fa-solid fa-house-chimney"></i> Home Page Text</h3>
+                <div class="form-group">
+                    <label>Welcome Name (Home Page)</label>
+                    <input type="text" id="welcomeName" placeholder="Hadeel Al-Shammari">
+                </div>
+                <div class="form-group">
+                    <label>Student ID</label>
+                    <input type="text" id="studentId" placeholder="202001256">
+                </div>
+                <div class="form-group">
+                    <label>Level</label>
+                    <input type="text" id="studentLevel" placeholder="Senior">
+                </div>
+                <button id="saveHomeTextBtn" class="admin-btn primary">
+                    <i class="fa-solid fa-save"></i> Save Home Text
+                </button>
+            </div>
+        </div>
+        
+        <!-- Tab Content: Profile -->
+        <div id="profileTab" class="tab-content">
+            <div class="admin-card">
+                <h3><i class="fa-solid fa-user-circle"></i> Student Profile</h3>
+                <div class="form-group">
+                    <label>Display Name (Dashboard)</label>
+                    <input type="text" id="profileDisplayName" placeholder="Hadeel Al-Shammari">
+                </div>
+                <div class="form-group">
+                    <label>Student ID (Dashboard)</label>
+                    <input type="text" id="profileStudentId" placeholder="202001256">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="profileEmail" placeholder="hadeel@pmu.edu.sa">
+                </div>
+                <button id="saveProfileBtn" class="admin-btn primary">
+                    <i class="fa-solid fa-save"></i> Save Profile
+                </button>
+            </div>
+            
+            <div class="admin-card">
+                <h3><i class="fa-solid fa-arrow-rotate-left"></i> Data Management</h3>
+                <button id="exportDataBtn" class="admin-btn secondary">
+                    <i class="fa-solid fa-download"></i> Export All Data (Backup)
+                </button>
+                <button id="importDataBtn" class="admin-btn warning">
+                    <i class="fa-solid fa-upload"></i> Import Data (Restore)
+                </button>
+                <input type="file" id="importFileInput" accept=".json" style="display: none;">
+                <button id="resetDataBtn" class="admin-btn danger" style="margin-top: 15px;">
+                    <i class="fa-solid fa-trash-can"></i> Reset to Default
+                </button>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="admin-footer">
+            <button id="backToAppBtn" class="back-to-app">
+                <i class="fa-solid fa-arrow-left"></i> Back to App
+            </button>
+            <span>PMU Student Hub v2.0</span>
+        </div>
+    </div>
+    
+    <script src="admin.js"></script>
+</body>
+</html>

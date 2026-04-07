@@ -37,17 +37,96 @@ function switchPage(pageId, element) {
     }
 }
 
+// ========== RECENT SEARCHES SYSTEM ==========
+function saveRecentSearch(roomNumber) {
+    if (!roomNumber) return;
+    
+    let recentSearches = JSON.parse(localStorage.getItem('pmu_recent_searches')) || [];
+    recentSearches = recentSearches.filter(item => item !== roomNumber);
+    recentSearches.unshift(roomNumber);
+    recentSearches = recentSearches.slice(0, 10);
+    localStorage.setItem('pmu_recent_searches', JSON.stringify(recentSearches));
+    renderRecentSearches();
+}
+
+function renderRecentSearches() {
+    const container = document.getElementById('recent-list');
+    if (!container) return;
+    
+    const recentSearches = JSON.parse(localStorage.getItem('pmu_recent_searches')) || [];
+    
+    if (recentSearches.length === 0) {
+        container.innerHTML = `<div class="empty-recent-item">🔍 No recent searches</div>`;
+        return;
+    }
+    
+    container.innerHTML = recentSearches.map(room => `
+        <div class="recent-item" onclick="selectRecentRoom('${room}')">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            <span>Room ${room}</span>
+            <button class="remove-recent" onclick="event.stopPropagation(); removeSingleRecent('${room}')">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+    `).join('');
+}
+
+function selectRecentRoom(roomNumber) {
+    const input = document.getElementById('roomInput');
+    if (input) {
+        input.value = roomNumber;
+    }
+    window.currentRoomNumber = roomNumber;
+    searchRoom();
+}
+
+function removeSingleRecent(roomNumber) {
+    let recentSearches = JSON.parse(localStorage.getItem('pmu_recent_searches')) || [];
+    recentSearches = recentSearches.filter(item => item !== roomNumber);
+    localStorage.setItem('pmu_recent_searches', JSON.stringify(recentSearches));
+    renderRecentSearches();
+    showToast(`🗑️ Removed Room ${roomNumber} from recent searches`);
+}
+
+function setupSearchInputEvents() {
+    const input = document.getElementById('roomInput');
+    const recentList = document.getElementById('recent-list');
+    
+    if (!input || !recentList) return;
+    
+    input.addEventListener('focus', () => {
+        const recentSearches = JSON.parse(localStorage.getItem('pmu_recent_searches')) || [];
+        if (recentSearches.length > 0) {
+            renderRecentSearches();
+            recentList.style.display = 'block';
+        }
+    });
+    
+    input.addEventListener('blur', () => {
+        setTimeout(() => {
+            recentList.style.display = 'none';
+        }, 200);
+    });
+    
+    input.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            recentList.style.display = 'none';
+            searchRoom();
+        }
+    });
+}
+
 // ========== ROOMS DATA ==========
 const roomsData = {
-    "101": { building: "Building A", floor: "First Floor", location: "Near North Elevator", image: "room1.png" },
-    "102": { building: "Building A", floor: "First Floor", location: "Near South Elevator", image: "room2.png" },
-    "201": { building: "Building B", floor: "Second Floor", location: "Next to Faculty Office", image: "room1.png" }
+    "G101": { building: "College of engineering | كلية الهندسة", floor: "Ground Floor", location: "Female Campus", image: "room1.png" },
+    "F101": { building: "College of Architecture and Design | كلية العمارة و التصميم", floor: "First Floor", location: "Female Campus", image: "room2.png" },
+    "S101": { building: "College of Law | كلية القانون", floor: "Second Floor", location: "Female Campus", image: "room3.png" }
 };
 
 const defaultRooms = {
-    "101": { building: "Building A", floor: "First Floor", location: "Near North Elevator", image: "room1.png" },
-    "102": { building: "Building A", floor: "First Floor", location: "Near South Elevator", image: "room1.png" },
-    "201": { building: "Building B", floor: "Second Floor", location: "Next to Faculty Office", image: "room1.png" }
+   "G101": { building: "College of engineering | كلية الهندسة", floor: "Ground Floor", location: "Female Campus", image: "room1.png" },
+    "F101": { building: "College of Architecture and Design | كلية العمارة و التصميم", floor: "First Floor", location: "Female Campus", image: "room2.png" },
+    "S101": { building: "College of Law | كلية القانون", floor: "Second Floor", location: "Female Campus", image: "room3.png" }
 };
 
 let customRooms = JSON.parse(localStorage.getItem('pmu_custom_rooms')) || {};
@@ -56,10 +135,26 @@ let customRooms = JSON.parse(localStorage.getItem('pmu_custom_rooms')) || {};
 function searchRoom() {
     const input = document.getElementById('roomInput').value.trim();
     const resultDiv = document.getElementById('room-result');
-    if (!input) { showToast('Please enter a room number', true); return; }
-    const roomData = roomsData[input];
+    
+    if (!input) { 
+        showToast('Please enter a room number', true); 
+        return; 
+    }
+    
+    let adminRooms = JSON.parse(localStorage.getItem('pmu_admin_rooms')) || {};
+    const allRooms = { ...roomsData, ...adminRooms };
+    const roomData = allRooms[input];
+    
     if (roomData) {
-        document.getElementById('room-image').src = roomData.image;
+        saveRecentSearch(input);
+        
+        let roomImage = roomData.image;
+        if (roomImage && roomImage.startsWith('data:')) {
+            document.getElementById('room-image').src = roomImage;
+        } else {
+            document.getElementById('room-image').src = roomData.image || 'room1.png';
+        }
+        
         document.getElementById('room-number').innerHTML = `Room ${input}`;
         document.getElementById('room-building').innerHTML = roomData.building;
         document.getElementById('room-floor').innerHTML = roomData.floor;
@@ -68,11 +163,25 @@ function searchRoom() {
         showToast(`📍 Room ${input} found!`);
     } else {
         resultDiv.classList.add('hidden');
-        showToast('Room not found! Try 101, 102, or 201', true);
+        showToast('Room not found! Try G101, F101, S101, or any room added by admin', true);
     }
 }
 
-function clearRecentSearches() { showToast('Recent searches cleared'); }
+// ========== CLEAR SEARCH RESULTS ==========
+function clearRecentSearches() {
+    const resultDiv = document.getElementById('room-result');
+    if (resultDiv) {
+        resultDiv.classList.add('hidden');
+    }
+    
+    const roomInput = document.getElementById('roomInput');
+    if (roomInput) {
+        roomInput.value = '';
+    }
+    
+    window.currentRoomNumber = null;
+    showToast('🧹 Search results cleared');
+}
 
 // ========== NOTIFICATIONS ==========
 function openNotificationsModal() {
@@ -164,6 +273,15 @@ let favorites = JSON.parse(localStorage.getItem('pmu_favorites')) || [];
 function toggleFavorite() {
     const roomNumber = window.currentRoomNumber;
     if (!roomNumber) { showToast("No room selected!", true); return; }
+    
+    let adminRooms = JSON.parse(localStorage.getItem('pmu_admin_rooms')) || {};
+    const allRooms = { ...roomsData, ...adminRooms };
+    
+    if (!allRooms[roomNumber]) {
+        showToast("Room not found!", true);
+        return;
+    }
+    
     if (favorites.includes(roomNumber)) {
         favorites = favorites.filter(r => r !== roomNumber);
         showToast(`Room ${roomNumber} removed from favorites`);
@@ -178,11 +296,15 @@ function toggleFavorite() {
 function renderFavorites() {
     const container = document.getElementById('favorites-container');
     if (!container) return;
+    
     if (favorites.length === 0) {
         container.innerHTML = `<div class="empty-favorites"><i class="fa-regular fa-heart"></i><p>No favorite rooms yet</p><span>Save rooms from search results</span></div>`;
         return;
     }
-    const allRooms = { ...defaultRooms, ...customRooms };
+    
+    let adminRooms = JSON.parse(localStorage.getItem('pmu_admin_rooms')) || {};
+    const allRooms = { ...defaultRooms, ...adminRooms };
+    
     container.innerHTML = favorites.map(room => {
         const roomData = allRooms[room];
         return `<div class="favorite-card" onclick="goToRoom('${room}')">
@@ -213,9 +335,13 @@ function clearAllFavorites() {
 }
 
 function goToRoom(roomNumber) {
-    document.getElementById('roomInput').value = roomNumber;
+    const roomInput = document.getElementById('roomInput');
+    if (roomInput) {
+        roomInput.value = roomNumber;
+    }
+    window.currentRoomNumber = roomNumber;
+    switchPage('search-page');
     searchRoom();
-    showScreen('search-page');
 }
 
 function shareLocation() {
@@ -256,41 +382,38 @@ function initMap() {
     let startX = 0, startY = 0;
     let isDragging = false;
     
-function applyBoundaries() {
-    if (!img || !container) return;
-    
-    const imgWidth = img.offsetWidth * scale;
-    const imgHeight = img.offsetHeight * scale;
-    const containerWidth = container.offsetWidth;
-    const containerHeight = container.offsetHeight;
-    
-    // حساب الحدود
-    let minX = (containerWidth - imgWidth) / 2;
-    let maxX = (containerWidth - imgWidth) / 2;
-    let minY = (containerHeight - imgHeight) / 2;
-    let maxY = (containerHeight - imgHeight) / 2;
-    
-    // إذا كانت الصورة أكبر من الحاوية، توسيع حدود التحريك
-    if (imgWidth > containerWidth) {
-        minX = -(imgWidth - containerWidth);
-        maxX = 0;
+    function applyBoundaries() {
+        if (!img || !container) return;
+        
+        const imgWidth = img.offsetWidth * scale;
+        const imgHeight = img.offsetHeight * scale;
+        const containerWidth = container.offsetWidth;
+        const containerHeight = container.offsetHeight;
+        
+        let minX = (containerWidth - imgWidth) / 2;
+        let maxX = (containerWidth - imgWidth) / 2;
+        let minY = (containerHeight - imgHeight) / 2;
+        let maxY = (containerHeight - imgHeight) / 2;
+        
+        if (imgWidth > containerWidth) {
+            minX = -(imgWidth - containerWidth);
+            maxX = 0;
+        }
+        
+        if (imgHeight > containerHeight) {
+            minY = -(imgHeight - containerHeight);
+            maxY = 0;
+        }
+        
+        const extraMove = 20;
+        minX -= extraMove;
+        maxX += extraMove;
+        minY -= extraMove;
+        maxY += extraMove;
+        
+        translateX = Math.min(maxX, Math.max(minX, translateX));
+        translateY = Math.min(maxY, Math.max(minY, translateY));
     }
-    
-    if (imgHeight > containerHeight) {
-        minY = -(imgHeight - containerHeight);
-        maxY = 0;
-    }
-    
-    // السماح بتحريك بسيط (20px) حتى لو الصورة أصغر
-    const extraMove = 20;
-    minX -= extraMove;
-    maxX += extraMove;
-    minY -= extraMove;
-    maxY += extraMove;
-    
-    translateX = Math.min(maxX, Math.max(minX, translateX));
-    translateY = Math.min(maxY, Math.max(minY, translateY));
-}
     
     function updateTransform() {
         if (!img) return;
@@ -360,6 +483,94 @@ function applyBoundaries() {
     console.log('✅ Pinch zoom map ready with boundaries');
 }
 
+// ========== LOAD HOME PAGE DATA ==========
+function loadHomePageData() {
+    console.log('🔄 Loading home page data...');
+    
+    const savedSchedule = localStorage.getItem('pmu_home_schedule');
+    if (savedSchedule) {
+        const schedule = JSON.parse(savedSchedule);
+        const scheduleContainer = document.querySelector('.schedule-cards');
+        if (scheduleContainer && schedule.length > 0) {
+            scheduleContainer.innerHTML = schedule.map(item => `
+                <div class="schedule-card ${item.status === 'ongoing' ? 'ongoing' : ''}">
+                    <div class="card-time">
+                        <span>${item.time.split(' - ')[0]}</span>
+                        <span>${item.time.split(' - ')[1] || ''}</span>
+                    </div>
+                    <div class="card-info">
+                        <h4>${item.name}</h4>
+                        <p>${item.teacher}</p>
+                        <div class="location"><i class="fa-solid fa-location-dot"></i> ${item.room}</div>
+                    </div>
+                    <div class="card-status ${item.status}">${item.status === 'ongoing' ? 'Ongoing' : 'Upcoming'}</div>
+                </div>
+            `).join('');
+        }
+    }
+    
+    const savedAnnouncements = localStorage.getItem('pmu_home_announcements');
+    if (savedAnnouncements) {
+        const announcements = JSON.parse(savedAnnouncements);
+        const announcementsContainer = document.querySelector('.announcement-cards');
+        if (announcementsContainer && announcements.length > 0) {
+            announcementsContainer.innerHTML = announcements.map(item => `
+                <div class="announcement-card">
+                    <div class="announce-icon"><i class="fa-regular fa-newspaper"></i></div>
+                    <div class="announce-content">
+                        <h4>${item.title}</h4>
+                        <p>${item.message}</p>
+                        <span>${item.time}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+    }
+    
+    const events = localStorage.getItem('home_stats_events');
+    const rooms = localStorage.getItem('home_stats_rooms');
+    const reminders = localStorage.getItem('home_stats_reminders');
+    
+    const eventsElement = document.querySelector('.stat-item:first-child .stat-num');
+    const roomsElement = document.querySelector('.stat-item:nth-child(2) .stat-num');
+    const remindersElement = document.querySelector('.stat-item:last-child .stat-num');
+    
+    if (events && eventsElement) eventsElement.innerText = events;
+    if (rooms && roomsElement) roomsElement.innerText = rooms;
+    if (reminders && remindersElement) remindersElement.innerText = reminders;
+    
+    const welcomeName = localStorage.getItem('home_welcome_name');
+    if (welcomeName) {
+        const welcomeElement = document.querySelector('#home-page .welcome-text h1');
+        if (welcomeElement) welcomeElement.innerText = welcomeName;
+    }
+    
+    const studentId = localStorage.getItem('home_student_id');
+    if (studentId) {
+        const idElement = document.querySelector('#home-page .student-id-box strong');
+        if (idElement) idElement.innerText = studentId;
+    }
+    
+    const studentLevel = localStorage.getItem('home_student_level');
+    if (studentLevel) {
+        const levelElement = document.querySelector('#home-page .level-badge strong');
+        if (levelElement) levelElement.innerText = studentLevel;
+    }
+    
+    const profileName = localStorage.getItem('profile_display_name');
+    if (profileName) {
+        const dashboardName = document.querySelector('#student-dashboard h2');
+        if (dashboardName) dashboardName.innerText = profileName;
+    }
+    
+    console.log('✅ Home page data loaded successfully');
+}
+
+// ========== ADMIN ACCESS ==========
+function openAdminLogin() {
+    window.location.href = 'admin-login.html';
+}
+
 // ========== SPLASH SCREEN ==========
 window.addEventListener('load', function() {
     setTimeout(() => {
@@ -395,8 +606,26 @@ document.addEventListener('DOMContentLoaded', function() {
     const roomInput = document.getElementById('roomInput');
     if (roomInput) roomInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') searchRoom(); });
     
+    // Admin trigger
+    const adminTrigger = document.querySelector('.student-id-box');
+    if (adminTrigger) {
+        adminTrigger.style.cursor = 'pointer';
+        adminTrigger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            openAdminLogin();
+        });
+        console.log('✅ Admin trigger ready');
+    }
+    
     renderFavorites();
     initMap();
+    
+    // ========== تهيئة نظام البحث الأخير ==========
+    renderRecentSearches();
+    setupSearchInputEvents();
+    
+    // ========== تحميل بيانات الصفحة الرئيسية ==========
+    loadHomePageData();
 });
 
 // ========== SWITCH PAGE WITH MAP REINIT ==========
@@ -426,6 +655,11 @@ window.clearAllFavorites = clearAllFavorites;
 window.goToRoom = goToRoom;
 window.shareLocation = shareLocation;
 window.showDirections = showDirections;
+window.saveRecentSearch = saveRecentSearch;
+window.renderRecentSearches = renderRecentSearches;
+window.selectRecentRoom = selectRecentRoom;
+window.removeSingleRecent = removeSingleRecent;
+window.setupSearchInputEvents = setupSearchInputEvents;
 
 // تحديث searchRoom لتخزين رقم الغرفة الحالي
 const originalSearchRoom = searchRoom;

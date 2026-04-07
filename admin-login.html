@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Admin Login - PMU Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body class="admin-login-body">
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="login-icon">
+                    <i class="fa-solid fa-shield-hooded"></i>
+                </div>
+                <h2>Admin Panel</h2>
+                <p>Enter your credentials to access</p>
+            </div>
+            
+            <form id="adminLoginForm" class="login-form">
+                <div class="input-group">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" id="adminUsername" placeholder="Username" value="admin">
+
+                </div>
+                
+                <div class="input-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="adminPassword" placeholder="Password">
+                </div>
+                
+                <button type="submit" class="login-btn">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i> Login
+                </button>
+            </form>
+            
+            <div class="login-footer">
+                <a href="index.html" class="back-home">
+                    <i class="fa-solid fa-arrow-left"></i> Back to App
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <script src="admin.js"></script>
+</body>
+</html>
