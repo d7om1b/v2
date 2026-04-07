@@ -32,8 +32,12 @@
 }
 
 .login-container {
-    width: 100%;
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 107);
+    background: var(--primary-dark);
+    position: relative;
 }
 
 .login-card {
@@ -167,9 +171,12 @@
 }
 
 .admin-container {
-    max-width: 700px;
-    margin: 0 auto;
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 107);
+    background: var(--primary-dark);
+    position: relative;
 }
 
 /* Header */
