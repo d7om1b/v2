@@ -668,3 +668,42 @@ window.searchRoom = function() {
     window.currentRoomNumber = input;
     return originalSearchRoom.apply(this, arguments);
 };
+
+// إصلاح أبعاد iframe في صفحة الخريطة
+function fixMapIframeDimensions() {
+    const mapPage = document.getElementById('map-page');
+    const iframe = mapPage?.querySelector('iframe');
+    
+    if (iframe) {
+        // تعيين الأبعاد مباشرة
+        iframe.style.position = 'fixed';
+        iframe.style.top = '0';
+        iframe.style.left = '0';
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
+        iframe.style.border = 'none';
+        iframe.style.zIndex = '9999';
+        
+        // عند التبديل إلى صفحة الخريطة
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.attributeName === 'class') {
+                    if (mapPage.classList.contains('active')) {
+                        iframe.style.display = 'block';
+                        // إخفاء الناف بار مؤقتاً
+                        const bottomNav = document.querySelector('.bottom-nav');
+                        if (bottomNav) bottomNav.style.display = 'none';
+                    } else {
+                        const bottomNav = document.querySelector('.bottom-nav');
+                        if (bottomNav) bottomNav.style.display = 'flex';
+                    }
+                }
+            });
+        });
+        
+        observer.observe(mapPage, { attributes: true });
+    }
+}
+
+// استدعاء الدالة عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', fixMapIframeDimensions);
