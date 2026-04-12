@@ -521,3 +521,9 @@ body {
 .screen.hidden {
     display: none !important;
 }
+
+/* تجاوز تنسيقات الـ screen لصفحة الخريطة فقط */
+#map-page.screen {
+    height: 100% !important;
+    padding: 0 !important;
+}
