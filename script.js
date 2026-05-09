@@ -126,7 +126,7 @@ function setupSearchInputEvents() {
 const roomsData = {
      // G Floor
     "G021": { building: "College of engineering | كلية الهندسة", floor: "Ground Floor", location: "Female Campus", image: "room1.png" },
-    "G024": { building: "College of engineering | كلية الهندسة", floor: "Ground Floor", location: "Female Campus", image: "room1.png" },
+    "G042": { building: "College of engineering | كلية الهندسة", floor: "Ground Floor", location: "Female Campus", image: "room1.png" },
     "G046": { building: "College of engineering | كلية الهندسة", floor: "Ground Floor", location: "Female Campus", image: "room1.png" },
 
    // F Floor 
