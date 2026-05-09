@@ -4,6 +4,12 @@
 // ========================================
 
 // ========== UTILITY FUNCTIONS ==========
+
+// ========== MAP GLOBAL VARIABLES ==========
+let currentMapScale = 1;
+let currentMapTranslateX = 0;
+let currentMapTranslateY = 0;
+
 function showToast(message, isError = false) {
     const toast = document.getElementById('custom-toast');
     if (toast) {
@@ -118,16 +124,61 @@ function setupSearchInputEvents() {
 
 // ========== ROOMS DATA ==========
 const roomsData = {
-    "G101": { building: "College of engineering | كلية الهندسة", floor: "Ground Floor", location: "Female Campus", image: "room1.png" },
-    "F101": { building: "College of Architecture and Design | كلية العمارة و التصميم", floor: "First Floor", location: "Female Campus", image: "room2.png" },
-    "S101": { building: "College of Law | كلية القانون", floor: "Second Floor", location: "Female Campus", image: "room3.png" }
+     // G Floor
+    "G021": { building: "College of engineering | كلية الهندسة", floor: "Ground Floor", location: "Female Campus", image: "room1.png" },
+    "G024": { building: "College of engineering | كلية الهندسة", floor: "Ground Floor", location: "Female Campus", image: "room1.png" },
+    "G046": { building: "College of engineering | كلية الهندسة", floor: "Ground Floor", location: "Female Campus", image: "room1.png" },
+
+   // F Floor 
+    "F061": { building: "College of Architecture and Design | كلية العمارة و التصميم", floor: "First Floor", location: "Female Campus", image: "room2.png" },
+    "F075": { building: "College of Architecture and Design | كلية العمارة و التصميم", floor: "First Floor", location: "Female Campus", image: "room2.png" },
+    "F143": { building: "College of Architecture and Design | كلية العمارة و التصميم", floor: "First Floor", location: "Female Campus", image: "room2.png" },
+
+    // S Floor
+    "S050": { building: "College of Law | كلية القانون", floor: "Second Floor", location: "Female Campus", image: "room3.png" },
+    "S053": { building: "College of Law | كلية القانون", floor: "Second Floor", location: "Female Campus", image: "room3.png" },
+    "S117": { building: "College of Law | كلية القانون", floor: "Second Floor", location: "Female Campus", image: "room3.png" }
 };
 
 const defaultRooms = {
-   "G101": { building: "College of engineering | كلية الهندسة", floor: "Ground Floor", location: "Female Campus", image: "room1.png" },
-    "F101": { building: "College of Architecture and Design | كلية العمارة و التصميم", floor: "First Floor", location: "Female Campus", image: "room2.png" },
-    "S101": { building: "College of Law | كلية القانون", floor: "Second Floor", location: "Female Campus", image: "room3.png" }
+     // G Floor
+    "G021": { building: "College of engineering | كلية الهندسة", floor: "Ground Floor", location: "Female Campus", image: "room1.png" },
+    "G024": { building: "College of engineering | كلية الهندسة", floor: "Ground Floor", location: "Female Campus", image: "room1.png" },
+    "G046": { building: "College of engineering | كلية الهندسة", floor: "Ground Floor", location: "Female Campus", image: "room1.png" },
+
+   // F Floor 
+    "F061": { building: "College of Architecture and Design | كلية العمارة و التصميم", floor: "First Floor", location: "Female Campus", image: "room2.png" },
+    "F075": { building: "College of Architecture and Design | كلية العمارة و التصميم", floor: "First Floor", location: "Female Campus", image: "room2.png" },
+    "F143": { building: "College of Architecture and Design | كلية العمارة و التصميم", floor: "First Floor", location: "Female Campus", image: "room2.png" },
+
+    // S Floor
+    "S050": { building: "College of Law | كلية القانون", floor: "Second Floor", location: "Female Campus", image: "room3.png" },
+    "S053": { building: "College of Law | كلية القانون", floor: "Second Floor", location: "Female Campus", image: "room3.png" },
+    "S117": { building: "College of Law | كلية القانون", floor: "Second Floor", location: "Female Campus", image: "room3.png" }
 };
+
+
+
+const roomMapsDatabase = {
+    // كلية الهندسة
+    "G021": { image: "classes/G021_Floor.png", title: "Engineering Building - Ground Floor" },
+    "G024": { image: "classes/G024_Floor.png", title: "Engineering Building - Ground Floor" },
+    "G046": { image: "classes/G046_Floor.png", title: "Engineering Building - Ground Floor" },
+    
+    // كلية العمارة
+    "F061": { image: "classes/F061_Floor.png", title: "Architecture Building - First Floor" },
+    "F075": { image: "classes/F075_Floor.png", title: "Architecture Building - First Floor" },
+    "F143": { image: "classes/F143_Floor.png", title: "Architecture Building - First Floor" },
+    
+    // كلية القانون
+    "S050": { image: "classes/S050_Floor", title: "Law Building - Second Floor" },
+    "S053": { image: "classes/S053_Floor", title: "Law Building - Second Floor" },
+    "S117": { image: "classes/S117_Floor", title: "Law Building - Second Floor" }
+
+    
+};
+
+
 
 let customRooms = JSON.parse(localStorage.getItem('pmu_custom_rooms')) || {};
 
@@ -357,13 +408,97 @@ function shareLocation() {
 
 // ========== DIRECTIONS FUNCTION ==========
 function showDirections() {
-    const roomNumber = document.getElementById('room-number').innerText;
-    const roomBuilding = document.getElementById('room-building').innerText;
-    const roomFloor = document.getElementById('room-floor').innerText;
-    localStorage.setItem('directions_room', JSON.stringify({ number: roomNumber, building: roomBuilding, floor: roomFloor }));
+    // جلب رقم الغرفة الحالية
+    let roomNumber = '';
+    
+    const roomNumberElement = document.getElementById('room-number');
+    if (roomNumberElement) {
+        roomNumber = roomNumberElement.innerText.replace('Room ', '').trim();
+    }
+    
+    if (!roomNumber && window.currentRoomNumber) {
+        roomNumber = window.currentRoomNumber;
+    }
+    
+    if (!roomNumber) {
+        showToast('No room selected!', true);
+        return;
+    }
+    
+    console.log('Getting directions for room:', roomNumber);
+    
+    // حفظ رقم الغرفة المحددة
+    localStorage.setItem('selected_room_map', roomNumber);
+    
+    // الانتقال إلى صفحة الخريطة
     switchPage('map-page');
+    
+    // تغيير صورة الخريطة بعد انتقال الصفحة
+    setTimeout(function() {
+        updateMapImageForRoom(roomNumber);
+    }, 100);
 }
 
+// ========== UPDATE MAP IMAGE FOR SPECIFIC ROOM ==========
+function updateMapImageForRoom(roomNumber) {
+    // البحث عن صورة الخريطة للغرفة
+    const roomMap = roomMapsDatabase[roomNumber];
+    const mapImage = document.getElementById('mapImage');
+    const mapTitle = document.querySelector('#map-page .map-header h2');
+    
+    if (mapImage) {
+        if (roomMap) {
+            // تغيير الصورة إلى خريطة الغرفة
+            mapImage.src = roomMap.image;
+            console.log('Map updated to:', roomMap.image);
+            
+            // تحديث عنوان الخريطة
+            if (mapTitle) {
+                mapTitle.innerHTML = `📍 ${roomMap.title}`;
+            }
+            
+            showToast(`📍 Showing map for Room ${roomNumber}`);
+        } else {
+            // إذا لم توجد خريطة خاصة، استخدم الخريطة الافتراضية
+            mapImage.src = DEFAULT_MAP.image;
+            if (mapTitle) {
+                mapTitle.innerHTML = `📍 ${DEFAULT_MAP.title}`;
+            }
+            showToast(`📍 Campus Map - Room ${roomNumber}`, false);
+        }
+        
+        // إعادة تعيين التكبير/التصغير إلى الوضع الطبيعي
+        resetMapZoom();
+    } else {
+        console.error('Map image element not found');
+    }
+}
+
+// ========== RESET MAP ZOOM ==========
+function resetMapZoom() {
+    // إعادة تعيين متغيرات التكبير إذا كانت موجودة من الـ initMap
+    if (typeof scale !== 'undefined') {
+        scale = 1;
+        translateX = 0;
+        translateY = 0;
+        if (typeof updateTransform === 'function') {
+            updateTransform();
+        }
+    }
+    
+    // أو عن طريق محاكاة ضغط زر reset
+    const resetBtn = document.getElementById('btnReset');
+    if (resetBtn) {
+        resetBtn.click();
+    }
+}
+// ========== ROOM MAPS DATABASE (صور خاصة لكل غرفة) ==========
+
+
+// خريطة افتراضية (إذا لم توجد خريطة للغرفة)
+const DEFAULT_MAP = { image: "map2.png", title: "Campus Map" };
+
+// ========== PINCH ZOOM MAP WITH BOUNDARIES ==========
 // ========== PINCH ZOOM MAP WITH BOUNDARIES ==========
 function initMap() {
     const container = document.getElementById('mapTouchContainer');
@@ -382,6 +517,7 @@ function initMap() {
     let startX = 0, startY = 0;
     let isDragging = false;
     
+    // تعريف الدوال أولاً
     function applyBoundaries() {
         if (!img || !container) return;
         
@@ -413,6 +549,11 @@ function initMap() {
         
         translateX = Math.min(maxX, Math.max(minX, translateX));
         translateY = Math.min(maxY, Math.max(minY, translateY));
+        
+        // تحديث المتغيرات العامة
+        currentMapScale = scale;
+        currentMapTranslateX = translateX;
+        currentMapTranslateY = translateY;
     }
     
     function updateTransform() {
@@ -421,7 +562,7 @@ function initMap() {
         img.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
     }
     
-    container.addEventListener('touchstart', (e) => {
+    function handleTouchStart(e) {
         if (e.touches.length === 2) {
             e.preventDefault();
             const dx = e.touches[0].clientX - e.touches[1].clientX;
@@ -433,9 +574,9 @@ function initMap() {
             startX = e.touches[0].clientX - translateX;
             startY = e.touches[0].clientY - translateY;
         }
-    });
+    }
     
-    container.addEventListener('touchmove', (e) => {
+    function handleTouchMove(e) {
         if (e.touches.length === 2) {
             e.preventDefault();
             const dx = e.touches[0].clientX - e.touches[1].clientX;
@@ -453,34 +594,85 @@ function initMap() {
             translateY = e.touches[0].clientY - startY;
             updateTransform();
         }
-    });
+    }
     
-    container.addEventListener('touchend', () => {
+    function handleTouchEnd() {
         isDragging = false;
-    });
+    }
     
-    document.getElementById('btnZoomIn')?.addEventListener('click', () => {
-        scale = Math.min(3, scale + 0.2);
-        updateTransform();
-    });
+    // إزالة المستمعين القديمين (للتأكد)
+    container.removeEventListener('touchstart', handleTouchStart);
+    container.removeEventListener('touchmove', handleTouchMove);
+    container.removeEventListener('touchend', handleTouchEnd);
     
-    document.getElementById('btnZoomOut')?.addEventListener('click', () => {
-        scale = Math.max(1, scale - 0.2);
-        updateTransform();
-    });
+    // إضافة المستمعين الجدد
+    container.addEventListener('touchstart', handleTouchStart, { passive: false });
+    container.addEventListener('touchmove', handleTouchMove, { passive: false });
+    container.addEventListener('touchend', handleTouchEnd);
     
-    document.getElementById('btnReset')?.addEventListener('click', () => {
-        scale = 1;
-        translateX = 0;
-        translateY = 0;
-        updateTransform();
-    });
+    // أزرار التحكم
+    const zoomInBtn = document.getElementById('btnZoomIn');
+    const zoomOutBtn = document.getElementById('btnZoomOut');
+    const resetBtn = document.getElementById('btnReset');
+    
+    if (zoomInBtn) {
+        zoomInBtn.onclick = () => {
+            scale = Math.min(3, scale + 0.2);
+            updateTransform();
+        };
+    }
+    
+    if (zoomOutBtn) {
+        zoomOutBtn.onclick = () => {
+            scale = Math.max(1, scale - 0.2);
+            updateTransform();
+        };
+    }
+    
+    if (resetBtn) {
+        resetBtn.onclick = () => {
+            scale = 1;
+            translateX = 0;
+            translateY = 0;
+            updateTransform();
+        };
+    }
     
     window.addEventListener('resize', () => {
         updateTransform();
     });
     
     console.log('✅ Pinch zoom map ready with boundaries');
+}
+
+// ========== CHANGE MAP IMAGE (مع إعادة تعيين التكبير) ==========
+function changeMapImage(newImageSrc, newTitle = null) {
+    const mapImage = document.getElementById('mapImage');
+    const mapTitle = document.querySelector('#map-page h2');
+    
+    if (!mapImage) {
+        console.error('Map image not found');
+        return;
+    }
+    
+    // تغيير الصورة
+    mapImage.src = newImageSrc;
+    
+    // تغيير العنوان إذا وجد
+    if (mapTitle && newTitle) {
+        mapTitle.innerHTML = `📍 ${newTitle}`;
+    }
+    
+    // إعادة تعيين التكبير والموقع
+    if (typeof currentMapScale !== 'undefined') {
+        // استخدام الدوال الموجودة لإعادة التعيين
+        const resetBtn = document.getElementById('btnReset');
+        if (resetBtn) {
+            resetBtn.click();
+        }
+    }
+    
+    console.log('Map image changed to:', newImageSrc);
 }
 
 // ========== LOAD HOME PAGE DATA ==========
@@ -667,4 +859,49 @@ window.searchRoom = function() {
     const input = document.getElementById('roomInput').value.trim();
     window.currentRoomNumber = input;
     return originalSearchRoom.apply(this, arguments);
+};
+
+// تصدير الدوال الجديدة
+window.showDirections = showDirections;
+window.updateMapImageForRoom = updateMapImageForRoom;
+window.resetMapZoom = resetMapZoom;
+
+// ========== FIX AR IFRAME DIMENSIONS ==========
+function fixARFrameDimensions() {
+    const arPage = document.getElementById('ar-page');
+    const iframe = arPage?.querySelector('iframe');
+    
+    if (!iframe) return;
+    
+    const fixDimensions = () => {
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
+        iframe.style.position = 'absolute';
+        iframe.style.top = '0';
+        iframe.style.left = '0';
+    };
+    
+    fixDimensions();
+    
+    // إصلاح الأبعاد عند تغيير اتجاه الشاشة
+    window.addEventListener('resize', () => {
+        setTimeout(fixDimensions, 50);
+    });
+    
+    window.addEventListener('orientationchange', () => {
+        setTimeout(fixDimensions, 100);
+    });
+}
+
+// استدعاء الدالة عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', fixARFrameDimensions);
+
+// إصلاح عند فتح صفحة AR
+const originalSwitchPage = switchPage;
+window.switchPage = function(pageId, element) {
+    originalSwitchPage(pageId, element);
+    if (pageId === 'ar-page') {
+        setTimeout(fixARFrameDimensions, 50);
+        setTimeout(fixARFrameDimensions, 200);
+    }
 };
