@@ -367,18 +367,7 @@
 </section>
 
 <!-- AR PAGE -->
-<!-- AR PAGE -->
-<!-- AR PAGE - الوضع البسيط والمعزول -->
-<section id="ar-page" class="screen" style="all: initial; display: block !important; position: fixed !important; top: 0; left: 0; width: 100%; height: 100%; background: black; z-index: 1000; overflow: hidden; margin: 0; padding: 0;">
-    <iframe
-        src="https://www.kivicube.com/scenes/D6G6BsxU8DgATcHrW369UvV59Y1Nblqi"
-        allow="xr-spatial-tracking; camera; microphone; autoplay; fullscreen; gyroscope; accelerometer"
-        style="display: block; position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; margin: 0; padding: 0;">
-    </iframe>
-    <button onclick="switchPage('home-page')" style="position: fixed; top: 20px; left: 20px; z-index: 1001; background: rgba(0,0,0,0.6); border: none; padding: 12px 20px; border-radius: 40px; color: white; font-size: 16px; cursor: pointer;">
-        <i class="fa-solid fa-arrow-left"></i> Back
-    </button>
-</section>
+
 
     </div>
 
@@ -386,7 +375,7 @@
     <nav class="bottom-nav">
         <div class="nav-item active" onclick="switchPage('home-page', this)"><i class="fa-solid fa-house"></i><span>Home</span></div>
         <div class="nav-item" onclick="switchPage('search-page', this)"><i class="fa-solid fa-magnifying-glass"></i><span>Search</span></div>
-       <div class="nav-item" onclick="switchPage('ar-page', this)"><i class="fa-solid fa-vr-cardboard"></i><span>AR</span></div>
+  <div class="nav-item" onclick="window.location.href='ar-viewer.html'"><i class="fa-solid fa-vr-cardboard"></i><span>AR</span></div>
         <div class="nav-item" onclick="switchPage('profile-page', this)"><i class="fa-solid fa-user"></i><span>Profile</span></div>
     </nav>
     
