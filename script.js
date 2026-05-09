@@ -143,7 +143,7 @@ const roomsData = {
 const defaultRooms = {
      // G Floor
     "G021": { building: "College of engineering | كلية الهندسة", floor: "Ground Floor", location: "Female Campus", image: "room1.png" },
-    "G024": { building: "College of engineering | كلية الهندسة", floor: "Ground Floor", location: "Female Campus", image: "room1.png" },
+    "G042": { building: "College of engineering | كلية الهندسة", floor: "Ground Floor", location: "Female Campus", image: "room1.png" },
     "G046": { building: "College of engineering | كلية الهندسة", floor: "Ground Floor", location: "Female Campus", image: "room1.png" },
 
    // F Floor 
@@ -162,7 +162,7 @@ const defaultRooms = {
 const roomMapsDatabase = {
     // كلية الهندسة
     "G021": { image: "classes/G021_Floor.png", title: "Engineering Building - Ground Floor" },
-    "G024": { image: "classes/G024_Floor.png", title: "Engineering Building - Ground Floor" },
+    "G042": { image: "classes/G042_Floor.png", title: "Engineering Building - Ground Floor" },
     "G046": { image: "classes/G046_Floor.png", title: "Engineering Building - Ground Floor" },
     
     // كلية العمارة

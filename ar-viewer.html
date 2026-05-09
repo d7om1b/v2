@@ -40,9 +40,10 @@
             background: #000;
         }
         
+        /* زر الرجوع - معدل ليتناسب مع Notch/Dynamic Island */
         .back-btn {
             position: fixed;
-            top: 20px;
+            top: calc(50px + env(safe-area-inset-top, 20px));
             left: 20px;
             z-index: 9999;
             background: rgba(0,0,0,0.6);
@@ -58,6 +59,7 @@
             align-items: center;
             gap: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            transition: transform 0.2s ease;
         }
         
         .back-btn:active {
@@ -102,11 +104,9 @@
         }, 3000);
         
         function goBack() {
-            // العودة إلى التطبيق الرئيسي
             window.location.href = 'index.html';
         }
         
-        // التأكد من ملء الشاشة عند تدوير الجهاز
         window.addEventListener('resize', () => {
             const iframe = document.getElementById('arIframe');
             if (iframe) {
