@@ -171,9 +171,9 @@ const roomMapsDatabase = {
     "F143": { image: "classes/F143_Floor.png", title: "Architecture Building - First Floor" },
     
     // كلية القانون
-    "S050": { image: "classes/S050_Floor", title: "Law Building - Second Floor" },
-    "S053": { image: "classes/S053_Floor", title: "Law Building - Second Floor" },
-    "S117": { image: "classes/S117_Floor", title: "Law Building - Second Floor" }
+    "S050": { image: "classes/S050_Floor.png", title: "Law Building - Second Floor" },
+    "S053": { image: "classes/S053_Floor.png", title: "Law Building - Second Floor" },
+    "S117": { image: "classes/S117_Floor.png", title: "Law Building - Second Floor" }
 
     
 };
@@ -868,60 +868,60 @@ window.resetMapZoom = resetMapZoom;
 
 // ========== FIX AR IFRAME DIMENSIONS ==========
 // ========== FIX AR IFRAME DIMENSIONS & OVERLAP ==========
+
+// ========== FIX AR IFRAME (FINAL) ==========
 function fixARFrameDimensions() {
     const arPage = document.getElementById('ar-page');
     const iframe = arPage?.querySelector('iframe');
     
-    if (!iframe) return;
-    
-    const fixDimensions = () => {
-        // إصلاح الأبعاد
-        iframe.style.width = '100%';
-        iframe.style.height = '100%';
-        iframe.style.position = 'absolute';
-        iframe.style.top = '0';
-        iframe.style.left = '0';
-        iframe.style.border = 'none';
-        
-        // إزالة أي خلفية شفافة
-        iframe.style.background = '#000';
-        
-        // التأكد من أن iframe يظهر كطبقة واحدة
-        iframe.style.zIndex = '1';
-    };
-    
-    // إخفاء أي عناصر قد تسبب تداخل
-    const arPageElements = arPage?.children;
-    if (arPageElements) {
-        for (let i = 0; i < arPageElements.length; i++) {
-            const el = arPageElements[i];
-            if (el !== iframe && el !== document.querySelector('.ar-back-btn')) {
-                el.style.display = 'none';
-            }
-        }
+    if (!iframe) {
+        console.log('AR iframe not found');
+        return;
     }
     
-    fixDimensions();
+    // تعيين الأبعاد مباشرة
+    iframe.style.position = 'fixed';
+    iframe.style.top = '0';
+    iframe.style.left = '0';
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.style.border = 'none';
+    iframe.style.margin = '0';
+    iframe.style.padding = '0';
+    iframe.style.backgroundColor = '#000';
+    iframe.style.zIndex = '1001';
     
-    // إصلاح عند تغيير اتجاه الشاشة
-    window.addEventListener('resize', () => {
-        setTimeout(fixDimensions, 50);
-    });
+    // تأكيد أن صفحة AR سوداوية
+    if (arPage) {
+        arPage.style.backgroundColor = '#000';
+        arPage.style.position = 'fixed';
+        arPage.style.top = '0';
+        arPage.style.left = '0';
+        arPage.style.width = '100%';
+        arPage.style.height = '100%';
+        arPage.style.zIndex = '1000';
+    }
     
-    window.addEventListener('orientationchange', () => {
-        setTimeout(fixDimensions, 100);
-    });
+    console.log('✅ AR iframe dimensions fixed');
 }
 
-// استدعاء الدالة عند تحميل الصفحة
-document.addEventListener('DOMContentLoaded', fixARFrameDimensions);
-
-// إصلاح عند فتح صفحة AR
-const originalSwitchPage = switchPage;
-window.switchPage = function(pageId, element) {
-    originalSwitchPage(pageId, element);
-    if (pageId === 'ar-page') {
-        setTimeout(fixARFrameDimensions, 50);
-        setTimeout(fixARFrameDimensions, 200);
+// استدعاء الدالة عند فتح صفحة AR فقط
+document.addEventListener('DOMContentLoaded', function() {
+    // راقب متى تظهر صفحة AR
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.attributeName === 'class') {
+                const arPage = document.getElementById('ar-page');
+                if (arPage && arPage.classList.contains('active')) {
+                    setTimeout(fixARFrameDimensions, 50);
+                    setTimeout(fixARFrameDimensions, 200);
+                }
+            }
+        });
+    });
+    
+    const arPage = document.getElementById('ar-page');
+    if (arPage) {
+        observer.observe(arPage, { attributes: true });
     }
-};
+});
