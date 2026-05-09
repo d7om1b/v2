@@ -25,10 +25,16 @@ function showToast(message, isError = false) {
 }
 
 function setRealHeight() {
+    // هذه الطريقة تحسب الارتفاع الفعلي للشاشة بدون أشرطة الأدوات والـ Notch
     let vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
+    
+    // إضافة متغير لمساحة الـ Notch العلوية
+    let safeTop = getComputedStyle(document.documentElement).getPropertyValue('--safe-top');
+    if(!safeTop) {
+        document.documentElement.style.setProperty('--safe-top', 'env(safe-area-inset-top)');
+    }
 }
-
 // ========== NAVIGATION ==========
 function switchPage(pageId, element) {
     console.log('Switching to:', pageId);

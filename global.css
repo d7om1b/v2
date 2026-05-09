@@ -3,6 +3,19 @@
    Background: #112a4e
    Colors: Orange (#f39c12) + White
    ======================================== */
+/* حل مشكلة الـ Notch لجميع الصفحات */
+body, .screen {
+    /* إضافة مسافة أمان علوية وسفلية */
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    /* لضمان عدم وجود فراغات بيضاء خلف الـ Notch */
+    background-color: var(--primary-dark); 
+}
+
+/* إذا كان الـ Header عندك ثابت (Fixed) */
+.home-header, .search-header, .map-header {
+    padding-top: calc(15px + env(safe-area-inset-top)) !important;
+}
 
 :root {
     --primary-dark: #112a4e;
