@@ -867,6 +867,7 @@ window.updateMapImageForRoom = updateMapImageForRoom;
 window.resetMapZoom = resetMapZoom;
 
 // ========== FIX AR IFRAME DIMENSIONS ==========
+// ========== FIX AR IFRAME DIMENSIONS & OVERLAP ==========
 function fixARFrameDimensions() {
     const arPage = document.getElementById('ar-page');
     const iframe = arPage?.querySelector('iframe');
@@ -874,16 +875,35 @@ function fixARFrameDimensions() {
     if (!iframe) return;
     
     const fixDimensions = () => {
+        // إصلاح الأبعاد
         iframe.style.width = '100%';
         iframe.style.height = '100%';
         iframe.style.position = 'absolute';
         iframe.style.top = '0';
         iframe.style.left = '0';
+        iframe.style.border = 'none';
+        
+        // إزالة أي خلفية شفافة
+        iframe.style.background = '#000';
+        
+        // التأكد من أن iframe يظهر كطبقة واحدة
+        iframe.style.zIndex = '1';
     };
+    
+    // إخفاء أي عناصر قد تسبب تداخل
+    const arPageElements = arPage?.children;
+    if (arPageElements) {
+        for (let i = 0; i < arPageElements.length; i++) {
+            const el = arPageElements[i];
+            if (el !== iframe && el !== document.querySelector('.ar-back-btn')) {
+                el.style.display = 'none';
+            }
+        }
+    }
     
     fixDimensions();
     
-    // إصلاح الأبعاد عند تغيير اتجاه الشاشة
+    // إصلاح عند تغيير اتجاه الشاشة
     window.addEventListener('resize', () => {
         setTimeout(fixDimensions, 50);
     });

@@ -367,25 +367,30 @@
 </section>
 
 <!-- AR PAGE -->
-<!-- AR PAGE - FIXED DIMENSIONS -->
+<!-- AR PAGE - FIXED CAMERA OVERLAP -->
 <section id="ar-page" class="screen">
     <style>
-        /* إصلاح أبعاد iframe بالكامل */
+        /* إزالة أي تكرار أو تداخل */
         #ar-page {
             position: fixed !important;
             top: 0 !important;
             left: 0 !important;
-            right: 0 !important;
-            bottom: 0 !important;
-            width: 100vw !important;
-            height: 100vh !important;
+            width: 100% !important;
+            height: 100% !important;
             margin: 0 !important;
             padding: 0 !important;
-            overflow: hidden !important;
             background: #000 !important;
-            z-index: 100 !important;
+            overflow: hidden !important;
         }
         
+        /* منع أي عنصر آخر من الظهور فوق الكاميرا */
+        #ar-page * {
+            margin: 0 !important;
+            padding: 0 !important;
+            box-sizing: border-box !important;
+        }
+        
+        /* iframe يملأ الشاشة بدون تكرار */
         #ar-page iframe {
             position: absolute !important;
             top: 0 !important;
@@ -393,36 +398,29 @@
             width: 100% !important;
             height: 100% !important;
             border: none !important;
-            margin: 0 !important;
-            padding: 0 !important;
+            background: #000 !important;
             display: block !important;
         }
         
-        /* إخفاء الناف بار عند فتح AR */
-        body:has(#ar-page.active) .bottom-nav {
-            display: none !important;
-        }
-        
-        /* زر الرجوع */
+        /* زر الرجوع فقط يظهر فوق الكاميرا */
         .ar-back-btn {
             position: fixed !important;
             top: 20px !important;
             left: 20px !important;
-            z-index: 1001 !important;
-            background: rgba(0,0,0,0.6) !important;
+            z-index: 9999 !important;
+            background: rgba(0,0,0,0.7) !important;
             backdrop-filter: blur(10px) !important;
             border: none !important;
             padding: 12px 20px !important;
             border-radius: 40px !important;
             color: white !important;
             font-size: 16px !important;
-            font-weight: 600 !important;
             cursor: pointer !important;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3) !important;
         }
         
-        .ar-back-btn:active {
-            transform: scale(0.95);
+        /* إخفاء الناف بار */
+        body:has(#ar-page.active) .bottom-nav {
+            display: none !important;
         }
     </style>
     

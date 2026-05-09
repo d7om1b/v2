@@ -521,3 +521,28 @@ body {
 .screen.hidden {
     display: none !important;
 }
+
+
+
+/* AR  */
+/* منع تداخل الكاميرا في AR */
+#ar-page iframe {
+    transform: none !important;
+    scale: 1 !important;
+    object-fit: cover !important;
+}
+
+/* منع أي عناصر عائمة فوق الكاميرا */
+#ar-page > :not(iframe):not(.ar-back-btn) {
+    display: none !important;
+}
+
+/* إزالة أي خلفية أثناء تشغيل AR */
+body:has(#ar-page.active) {
+    background: #000 !important;
+}
+
+body:has(#ar-page.active) .app-container,
+body:has(#ar-page.active) .screens-wrapper {
+    background: #000 !important;
+}
