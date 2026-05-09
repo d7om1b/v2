@@ -523,10 +523,9 @@ body {
 }
 
 
-
 /* ========================================
    AR PAGE - FIXED (نهائي)
-   ======================================== */
+
 #ar-page {
     position: fixed !important;
     top: 0 !important;
@@ -571,14 +570,16 @@ body {
     cursor: pointer !important;
 }
 
-/* إخفاء الناف بار عند فتح AR */
+
 body:has(#ar-page.active) .bottom-nav {
     display: none !important;
 }
 
-/* التأكد من عدم وجود خلفية زرقاء */
+
 body:has(#ar-page.active),
 body:has(#ar-page.active) .app-container,
 body:has(#ar-page.active) .screens-wrapper {
     background: #000000 !important;
 }
+   ======================================== */
+
